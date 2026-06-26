@@ -1,0 +1,19 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+  margin: -8px;
+}
+
+.sidebar {
+  width: 400px;
+  background: #2c3e50;
+  color: white;
+  padding: 40px;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+  background: #ecf0f1;
+}

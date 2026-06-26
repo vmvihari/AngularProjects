@@ -1,0 +1,13 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Enterprise Issue Tracker</h2>
+    <nav>Issues</nav>
+  </aside>
+  <main class="content">
+    <!-- Pass data in with [issues], listen to events with (resolveIssue) -->
+    <app-issue-list
+      [issues]="issuesList"
+      (resolveIssue)="onResolveIssue($event)">
+    </app-issue-list>
+  </main>
+</div>

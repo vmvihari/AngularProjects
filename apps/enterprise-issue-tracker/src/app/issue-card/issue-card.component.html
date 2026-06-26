@@ -1,0 +1,10 @@
+<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 4px;">
+  <div class="content">
+    <!-- Default slot for the main content -->
+    <ng-content></ng-content>
+  </div>
+  <div class="actions" style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 5px;">
+    <!-- Named slot exclusively for action buttons -->
+    <ng-content select="[actions]"></ng-content>
+  </div>
+</div>
