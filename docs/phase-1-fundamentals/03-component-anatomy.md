@@ -36,3 +36,31 @@ You link these together using the `@Component` decorator, which functions very m
 Inside that `@Component` decorator, you will see an `imports` array. Modern Angular components are "standalone", meaning they manage their own dependencies instead of relying on a global module. Just like you use `using` statements in C#, you import other components or tools directly into this array to use them in your template.
 
 Your Task: Let's clear out the default Angular boilerplate. We need to create the root shell for our Enterprise Issue Tracker, which will consist of a sidebar for navigation and a main content area.
+
+```typescript
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  template: `
+    <div class="layout">
+      <aside class="sidebar">
+        <h2>Issue Tracker</h2>
+        <nav>Issues</nav>
+      </aside>
+      <main class="content">
+        <!-- The routed components will load here -->
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  `,
+  styles: [`
+    .layout { display: flex; height: 100vh; font-family: sans-serif; margin: -8px; }
+    .sidebar { width: 220px; background: #2c3e50; color: white; padding: 20px; }
+    .content { flex: 1; padding: 20px; background: #ecf0f1; }
+  `]
+})
+export class AppComponent { }
+```
