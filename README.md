@@ -7,6 +7,7 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 
 ## Table of Contents
 
+### Projects
 - [Project Source Code: Enterprise Issue Tracker](apps/enterprise-issue-tracker/)
 
 ### Phase 1: Angular Fundamentals
