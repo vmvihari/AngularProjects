@@ -32,6 +32,9 @@
           
       <!-- The edit button now calls the service directly -->
       <button actions (click)="issueService.editIssue(issue.id)" class="btn-edit">Edit</button>
+      
+      <button actions (click)="issueService.deleteIssue(issue.id)" class="btn-edit">Delete</button>          
+      
     </app-issue-card>
   } @empty {
     <p>No issues found.</p>

@@ -8,7 +8,8 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 ## Table of Contents
 
 ### Projects
-- [Project Source Code: Enterprise Issue Tracker](apps/enterprise-issue-tracker/)
+- [Project Source Code: Enterprise Issue Tracker (Angular)](apps/enterprise-issue-tracker/)
+- [Project Source Code: Enterprise Issue Tracker (ASP.NET Core API)](apps/IssueTracker.Api/)
 
 ### Phase 1: Angular Fundamentals
 1. [Introduction](docs/phase-1-fundamentals/01-introduction.md)
@@ -41,6 +42,14 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 3. [Asynchronous Validators](docs/phase-5-forms-and-validation/03-async-validators.md)
 4. [Dynamic Forms (FormArray)](docs/phase-5-forms-and-validation/04-dynamic-forms-formarray.md)
 5. [FormBuilder](docs/phase-5-forms-and-validation/05-formbuilder.md)
+
+### Phase 6: HTTP & Data Fetching
+0. [Prerequisites: Running the API](docs/phase-6-http-and-data-fetching/00-prerequisites.md)
+1. [HttpClient Setup](docs/phase-6-http-and-data-fetching/01-httpclient-setup.md)
+2. [CRUD Operations & State](docs/phase-6-http-and-data-fetching/02-crud-operations-and-state.md)
+3. [Environment Config](docs/phase-6-http-and-data-fetching/03-environment-config.md)
+4. [HTTP Interceptors](docs/phase-6-http-and-data-fetching/04-http-interceptors.md)
+5. [Mutations and Reactivity](docs/phase-6-http-and-data-fetching/05-mutations-and-reactivity.md)
 
 ---
 

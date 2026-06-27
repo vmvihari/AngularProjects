@@ -1,6 +1,9 @@
-import { Injectable, resource, computed, signal, linkedSignal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, computed, signal, linkedSignal, inject } from '@angular/core';
+import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +12,11 @@ export class IssueService {
 
   constructor() { }
 
+  http = inject(HttpClient);
+  apiUrl = `${environment.apiUrl}/issues`;
   // Replace issuesList signal with a resource
-  issuesResource = resource({
-    loader: async() => {
-      // Simulate a 1-second network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return [
-        { id: 1, title: 'Fix login validation', status: 'Open' },
-        { id: 2, title: 'Update routing module', status: 'Closed' },
-        { id: 3, title: 'Build issue list component', status: 'Open' }
-      ];
-    }
+  issuesResource = rxResource({
+    loader: () => this.http.get<any[]>(this.apiUrl)
   });
 
   // Move the derived state here!
@@ -54,28 +51,42 @@ export class IssueService {
     this.selectedIssue.set(issue || null);
   }
   
+  // UPDATE: Refactor mutations to make HTTP calls, and then optimistically update the local resource!
   // Update the local resource value using .value.update()
   onResolveIssue(issueId: number) {
-    // 3. Update the signal using an immutable pattern
-    this.issuesResource.value.update(issues => 
-      (issues ?? []).map(issue =>
-        issue.id === issueId ? { ...issue, status: 'Closed' } : issue
+    this.http.put<any>(`${this.apiUrl}/${issueId}`, { status: 'Closed' }).subscribe(() => {
+      // Update the signal using an immutable pattern
+      this.issuesResource.value.update(issues => 
+        (issues ?? []).map(issue =>
+          issue.id === issueId ? { ...issue, status: 'Closed' } : issue
+        )
       )
-    )
+    })
   }
 
   updateIssueTitle(issueId: number, newTitle: string) {
-    this.issuesResource.value.update(issues => 
-      (issues ?? []).map(issue => 
-        issue.id === issueId ? { ...issue, title: newTitle } : issue
+    this.http.put<any>(`${this.apiUrl}/${issueId}`, { title: newTitle }).subscribe(() => {
+      this.issuesResource.value.update(issues => 
+        (issues ?? []).map(issue => 
+          issue.id === issueId ? { ...issue, title: newTitle } : issue
+        )
       )
-    );
+    })
+  };
+
+  // CREATE: Refactor addIssue to make a POST request
+  addIssue(title: string, description: string) {
+    this.http.post<any>(this.apiUrl, { title, description }).subscribe((newIssue) => {
+    this.issuesResource.value.update(issues => [...(issues ?? []), newIssue]);
+    });
   }
 
-  addIssue(title: string, description: string) {
-    this.issuesResource.value.update(issues => [
-      ...(issues ?? []),
-      { id: Date.now(), title, status: 'Open' }
-    ])
+  // DELETE: Let's add a new delete method for full CRUD!
+  deleteIssue(issueId: number) {
+    this.http.delete(`${this.apiUrl}/${issueId}`).subscribe(() => {
+      this.issuesResource.value.update(issues => 
+        (issues ?? []).filter(issue => issue.id !== issueId)
+      );
+    });
   }
 }
