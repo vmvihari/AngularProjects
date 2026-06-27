@@ -71,4 +71,11 @@ export class IssueService {
       )
     );
   }
+
+  addIssue(title: string, description: string) {
+    this.issuesResource.value.update(issues => [
+      ...(issues ?? []),
+      { id: Date.now(), title, status: 'Open' }
+    ])
+  }
 }

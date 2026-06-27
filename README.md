@@ -36,7 +36,12 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 5. [Lazy Loading](docs/phase-4-routing-and-navigation/05-lazy-loading.md)
 
 ### Phase 5: Forms & Validation
-*(Coming soon)*
+1. [Reactive Forms](docs/phase-5-forms-and-validation/01-reactive-forms.md)
+2. [Cross-Field Validation](docs/phase-5-forms-and-validation/02-cross-field-validation.md)
+3. [Asynchronous Validators](docs/phase-5-forms-and-validation/03-async-validators.md)
+4. [Dynamic Forms (FormArray)](docs/phase-5-forms-and-validation/04-dynamic-forms-formarray.md)
+5. [FormBuilder](docs/phase-5-forms-and-validation/05-formbuilder.md)
+
 ---
 
 *This project is built and maintained as part of an advanced Angular tutorial series.*

@@ -10,7 +10,7 @@ export const routes: Routes = [
     {
         path: 'issues/new',
         loadComponent: () => import('./issues/issue-create/issue-create.component').then(m => m.IssueCreateComponent),
-        canActivate: [authGuard]
+        //canActivate: [authGuard]
     },    
     // Lazy loaded route!
     {
