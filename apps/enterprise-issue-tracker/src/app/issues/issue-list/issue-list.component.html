@@ -1,0 +1,49 @@
+<h2>Current Issues</h2>
+
+<!-- Read the computed signal by calling it like a function -->
+<h3 class="open-issues-count">
+  Open Issues: {{ issueService.openIssuesCount() }}
+</h3>
+
+<input 
+  placeholder="Search issues..." 
+  (input)="issueService.searchTerm.set($any($event.target).value)" 
+  class="search-input" 
+/>
+
+@if (issueService.issuesResource.isLoading()) {
+  <p>Loading issues from server...</p>
+} @else {
+  <!-- Note: We now call issues() because it is a Signal -->
+  @for (issue of issueService.filteredIssues(); track issue.id) {
+    <app-issue-card>
+      <!-- Default slot: This text automatically goes into <ng-content> -->
+      <strong>{{ issue.title }}</strong> 
+      <span class="issue-status">[{{ issue.status }}]</span>
+
+      @if (issue.status === 'Open') {      
+        <!-- Named slot: The 'actions' attribute targets <ng-content select="[actions]"> -->
+        <!-- Emit the output event when clicked -->
+        <button actions (click)="issueService.onResolveIssue(issue.id)" class="btn-resolve">Resolve</button>
+      }
+          
+      <!-- The edit button now calls the service directly -->
+      <button actions (click)="issueService.editIssue(issue.id)" class="btn-edit">Edit</button>
+    </app-issue-card>
+  } @empty {
+    <p>No issues found.</p>
+  }
+}
+
+<!-- The Edit Form -->
+@if (issueService.selectedIssue()) {
+  <div class="edit-form-container">
+    <h3>Editing: {{ issueService.selectedIssue()?.title }}</h3>
+    <input 
+      [value]="issueService.draftTitle()" 
+      (input)="issueService.draftTitle.set($any($event.target).value)" 
+      class="edit-input" />
+    <button (click)="onSaveEdit()" class="btn-save">Save</button>
+    <button (click)="issueService.selectedIssue.set(null)" class="btn-cancel">Cancel</button>
+  </div>
+}

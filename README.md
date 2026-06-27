@@ -23,6 +23,12 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 3. [Resource API](docs/phase-2-modern-reactivity/03-resource-api.md)
 4. [RxJS Interoperability](docs/phase-2-modern-reactivity/04-rxjs-interop.md)
 
+### Phase 3: Dependency Injection (DI) & Services
+1. [Services](docs/phase-3-di-and-services/01-services.md)
+2. [Feature Organization](docs/phase-3-di-and-services/02-feature-organization.md)
+3. [Routing](docs/phase-3-di-and-services/03-routing.md)
+4. [Shared State](docs/phase-3-di-and-services/04-shared-state.md)
+
 ---
 
 *This project is built and maintained as part of an advanced Angular tutorial series.*

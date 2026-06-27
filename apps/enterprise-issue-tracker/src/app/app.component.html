@@ -1,53 +1,15 @@
 <div class="layout">
   <aside class="sidebar">
     <h2>Enterprise Issue Tracker</h2>
-    <nav>Issues</nav>
+    <nav>
+      <!-- Use routerLink instead of href -->
+      <a routerLink="/issues" class="nav-link">Issues</a>
+    </nav>
   </aside>
   <main class="content">
-    <!-- Read the computed signal by calling it like a function -->
-    <h3 style="margin-top: 0;">
-      Open Issues: {{ openIssuesCount() }}
-    </h3>
 
-    <!-- Search Input -->
-    <input 
-      placeholder="Search issues..." 
-      (input)="searchTerm.set($any($event.target).value)" 
-      style="padding: 5px; margin-bottom: 15px; width: 250px;" />
-    
-    <!-- Check the resource loading state signal -->
-    @if (issuesResource.isLoading()) {
-      <p>Loading issues from server...</p>
-    } @else {
-    <!-- Pass the unwrapped signal value to the child -->
-      <!-- <app-issue-list 
-        [issues]="issuesResource.value() ?? []" 
-        (resolveIssue)="onResolveIssue($event)" 
-        (editIssue)="onEdit($event)">
-      </app-issue-list> -->
-      <app-issue-list 
-        [issues]="filteredIssues()" 
-        (resolveIssue)="onResolveIssue($event)" 
-        (editIssue)="onEdit($event)">
-      </app-issue-list>
-    }
+    <!-- The router will dynamically load the IssueListComponent here -->
+    <router-outlet></router-outlet>
 
-    <!-- Our inline editor using the linkedSignal -->
-    @if (selectedIssue()) {
-    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 4px;">
-      <h3>Editing: {{ selectedIssue()?.title }}</h3>
-      <input 
-        [value]="draftTitle()" 
-        (input)="draftTitle.set($any($event.target).value)"
-        style="padding: 5px; width: 250px;" />
-
-      <button 
-        (click)="onSaveEdit()" 
-        style="margin-left: 10px;">Save Changes</button>
-      <button 
-        (click)="selectedIssue.set(null)" 
-        style="margin-left: 5px;">Cancel</button>
-    </div>
-    }
   </main>
 </div>

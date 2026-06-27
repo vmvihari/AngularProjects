@@ -1,0 +1,12 @@
+.issue-card-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.actions {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 5px;
+}
