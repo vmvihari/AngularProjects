@@ -1,4 +1,4 @@
-# Module 4: Shared State in Services
+# Module 2: Shared State in Services
 
 While it works in `AppComponent`, the ideal place for derived state like `openIssuesCount` is inside the `IssueService`.
 

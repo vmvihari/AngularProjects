@@ -1,4 +1,4 @@
-# Module 3: Routing
+# Module 1: Routing
 
 Let's configure routing. In Angular, routing manages which component is displayed based on the URL, operating entirely in the client's browser. It requires mapping URL paths to components and using a `<router-outlet>` element as a placeholder for the framework to render the active view.
 

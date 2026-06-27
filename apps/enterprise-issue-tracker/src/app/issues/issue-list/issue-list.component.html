@@ -20,6 +20,9 @@
       <!-- Default slot: This text automatically goes into <ng-content> -->
       <strong>{{ issue.title }}</strong> 
       <span class="issue-status">[{{ issue.status }}]</span>
+       
+      <!-- New Button for issue details -->
+      <button actions (click)="viewDetails(issue.id)">View</button> 
 
       @if (issue.status === 'Open') {      
         <!-- Named slot: The 'actions' attribute targets <ng-content select="[actions]"> -->

@@ -26,9 +26,16 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 ### Phase 3: Dependency Injection (DI) & Services
 1. [Services](docs/phase-3-di-and-services/01-services.md)
 2. [Feature Organization](docs/phase-3-di-and-services/02-feature-organization.md)
-3. [Routing](docs/phase-3-di-and-services/03-routing.md)
-4. [Shared State](docs/phase-3-di-and-services/04-shared-state.md)
 
+### Phase 4: Routing & Navigation
+1. [Routing](docs/phase-4-routing-and-navigation/01-routing.md)
+2. [Shared State](docs/phase-4-routing-and-navigation/02-shared-state.md)
+3. [Route Parameters](docs/phase-4-routing-and-navigation/03-route-parameters.md)
+4. [Route Guards](docs/phase-4-routing-and-navigation/04-route-guards.md)
+5. [Lazy Loading](docs/phase-4-routing-and-navigation/05-lazy-loading.md)
+
+### Phase 5: Forms & Validation
+*(Coming soon)*
 ---
 
 *This project is built and maintained as part of an advanced Angular tutorial series.*
