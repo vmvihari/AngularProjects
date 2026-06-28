@@ -11,35 +11,46 @@
   class="search-input" 
 />
 
-@if (issueService.issuesResource.isLoading()) {
-  <p>Loading issues from server...</p>
-} @else {
-  <!-- Note: We now call issues() because it is a Signal -->
+<ng-container *appSkeletonLoader="issueService.issuesResource.isLoading()">
   @for (issue of issueService.filteredIssues(); track issue.id) {
-    <app-issue-card>
+    <app-issue-card [status]="issue.status" tooltipText="Click View for details.">
       <!-- Default slot: This text automatically goes into <ng-content> -->
-      <strong>{{ issue.title }}</strong> 
-      <span class="issue-status">[{{ issue.status }}]</span>
-       
+      <div class="issue-header">
+        <h3 class="issue-title">
+          {{ issue.title }}
+          <span class="issue-status">[{{ issue.status }}]</span>
+        </h3>
+        
+        <small class="issue-date text-muted">
+          <i class="clock-icon"></i> Created {{ issue.createdAt | timeAgo }}
+        </small>
+      </div>
+      
+      <p class="issue-description">{{ issue.description }}</p>
+      
+      <div class="issue-meta">
+        <div class="issue-tags">
+          @for (tag of issue.tags; track tag) {
+            <span class="tag">#{{ tag }}</span>
+          }
+        </div>
+        
+      </div>
       <!-- New Button for issue details -->
       <button actions (click)="viewDetails(issue.id)">View</button> 
-
       @if (issue.status === 'Open') {      
         <!-- Named slot: The 'actions' attribute targets <ng-content select="[actions]"> -->
         <!-- Emit the output event when clicked -->
         <button actions (click)="issueService.onResolveIssue(issue.id)" class="btn-resolve">Resolve</button>
       }
-          
       <!-- The edit button now calls the service directly -->
       <button actions (click)="issueService.editIssue(issue.id)" class="btn-edit">Edit</button>
-      
       <button actions (click)="issueService.deleteIssue(issue.id)" class="btn-edit">Delete</button>          
-      
     </app-issue-card>
   } @empty {
     <p>No issues found.</p>
-  }
-}
+  }    
+</ng-container>
 
 <!-- The Edit Form -->
 @if (issueService.selectedIssue()) {

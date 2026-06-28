@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators, FormArray, Non
 import { IssueService } from '../issue.service';
 import { urgentDescriptionValidator } from '../validators/urgent-description.validator';
 import { uniqueTitleValidator } from '../validators/unique-title.validator';
+import { ToastService } from '../../shared/service/toast.service';
 
 @Component({
   selector: 'app-issue-create',
@@ -15,9 +16,9 @@ import { uniqueTitleValidator } from '../validators/unique-title.validator';
 export class IssueCreateComponent {
   issueService = inject(IssueService);
   router = inject(Router);
-
   // Inject the NonNullableFormBuilder to ensure our form values can never be null
   fb = inject(NonNullableFormBuilder);
+  toastService = inject(ToastService);
 
   // Create the form model with validation rules
   issueForm = this.fb.group({
@@ -30,8 +31,11 @@ export class IssueCreateComponent {
   // Define the submit action
   onSubmit() {
     if (this.issueForm.valid) {
-      const { title, description } = this.issueForm.getRawValue();
-      this.issueService.addIssue(title, description);
+      const { title, description, tags } = this.issueForm.getRawValue();
+      this.issueService.addIssue(title, description, tags);
+
+      // Programmatically spawn the toast!
+      this.toastService.show('Issue successfully created!');
 
       // Navigate back to the list on success
       this.router.navigate(['/issues']);

@@ -51,6 +51,13 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [HTTP Interceptors](docs/phase-6-http-and-data-fetching/04-http-interceptors.md)
 5. [Mutations and Reactivity](docs/phase-6-http-and-data-fetching/05-mutations-and-reactivity.md)
 
+### Phase 7: Advanced UI & Custom Directives
+1. [Custom Attribute Directives](docs/phase-7-advanced-ui/01-attribute-directives.md)
+2. [Custom Structural Directives](docs/phase-7-advanced-ui/02-structural-directives.md)
+3. [Custom Pipes](docs/phase-7-advanced-ui/03-custom-pipes.md)
+4. [Dynamic Component Loading](docs/phase-7-advanced-ui/04-dynamic-components.md)
+5. [Accessibility (a11y)](docs/phase-7-advanced-ui/05-accessibility-and-a11y.md)
+
 ---
 
 *This project is built and maintained as part of an advanced Angular tutorial series.*

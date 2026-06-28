@@ -4,6 +4,7 @@ import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment.development';
+import { Issue } from './issue.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class IssueService {
   apiUrl = `${environment.apiUrl}/issues`;
   // Replace issuesList signal with a resource
   issuesResource = rxResource({
-    loader: () => this.http.get<any[]>(this.apiUrl)
+    loader: () => this.http.get<Issue[]>(this.apiUrl)
   });
 
   // Move the derived state here!
@@ -41,7 +42,7 @@ export class IssueService {
   });
 
   // Track the issue currently being edited
-  selectedIssue = signal<{id: number, title: string, status: string} | null>(null);
+  selectedIssue = signal<Issue | null>(null);
 
   // linkedSignal: defaults to the selected issue's title, but updates freely when typed in!
   draftTitle = linkedSignal(() => this.selectedIssue()?.title ?? '')  
@@ -54,7 +55,7 @@ export class IssueService {
   // UPDATE: Refactor mutations to make HTTP calls, and then optimistically update the local resource!
   // Update the local resource value using .value.update()
   onResolveIssue(issueId: number) {
-    this.http.put<any>(`${this.apiUrl}/${issueId}`, { status: 'Closed' }).subscribe(() => {
+    this.http.put<Issue>(`${this.apiUrl}/${issueId}`, { status: 'Closed' }).subscribe(() => {
       // Update the signal using an immutable pattern
       this.issuesResource.value.update(issues => 
         (issues ?? []).map(issue =>
@@ -65,7 +66,7 @@ export class IssueService {
   }
 
   updateIssueTitle(issueId: number, newTitle: string) {
-    this.http.put<any>(`${this.apiUrl}/${issueId}`, { title: newTitle }).subscribe(() => {
+    this.http.put<Issue>(`${this.apiUrl}/${issueId}`, { title: newTitle }).subscribe(() => {
       this.issuesResource.value.update(issues => 
         (issues ?? []).map(issue => 
           issue.id === issueId ? { ...issue, title: newTitle } : issue
@@ -75,8 +76,8 @@ export class IssueService {
   };
 
   // CREATE: Refactor addIssue to make a POST request
-  addIssue(title: string, description: string) {
-    this.http.post<any>(this.apiUrl, { title, description }).subscribe((newIssue) => {
+  addIssue(title: string, description: string, tags: string[] = []) {
+    this.http.post<Issue>(this.apiUrl, { title, description, tags }).subscribe((newIssue) => {
     this.issuesResource.value.update(issues => [...(issues ?? []), newIssue]);
     });
   }

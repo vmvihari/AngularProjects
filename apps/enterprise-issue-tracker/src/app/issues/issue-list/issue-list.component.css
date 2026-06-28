@@ -39,3 +39,61 @@
 .btn-cancel {
   margin-left: 5px;
 }
+
+.issue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.issue-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+}
+
+/* Fix for the user's status tag inside the H3 */
+.issue-title .issue-status {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-left: 12px;
+}
+
+.issue-description {
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.issue-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.issue-tags {
+  display: flex;
+  gap: 6px;
+}
+
+.tag {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+}
+
+.issue-date {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}

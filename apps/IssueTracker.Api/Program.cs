@@ -36,14 +36,17 @@ app.UseHttpsRedirection();
 // In-memory data store for issues
 var issues = new List<Issue>
 {
-    new Issue(1, "Fix navigation bug", "The sidebar navigation is broken on mobile devices.", "Open", new[] { "bug", "ui" }),
-    new Issue(2, "Implement login", "Need to add JWT authentication.", "In Progress", new[] { "feature", "auth" }),
-    new Issue(3, "Update documentation", "Update the README with setup instructions.", "Done", new[] { "docs" })
+    new Issue(1, "Fix navigation bug", "The sidebar navigation is broken on mobile devices.", "Open", new[] { "bug", "ui" }, DateTime.UtcNow.AddMinutes(-5)),
+    new Issue(2, "Implement login", "Need to add JWT authentication.", "In Progress", new[] { "feature", "auth" }, DateTime.UtcNow.AddHours(-2)),
+    new Issue(3, "Update documentation", "Update the README with setup instructions.", "Done", new[] { "docs" }, DateTime.UtcNow.AddDays(-2)),
+    new Issue(4, "Urgent - Internal Server Error", "All APIs are throwing internal server error.", "Open", new[] { "Urgent", "Regression", "API" }, DateTime.UtcNow.AddDays(-6)),
+    new Issue(5, "Toast message in not showing as per the design", "Toast message in not floating at the top of the screen. In console it is showing an error.", "Open", new[] { "UI", "Regression" }, DateTime.UtcNow.AddDays(-12))
 };
 
 // GET /api/issues
-app.MapGet("/api/issues", () =>
+app.MapGet("/api/issues", async () =>
 {
+    await System.Threading.Tasks.Task.Delay(5000); // Simulate network latency
     return Results.Ok(issues);
 })
 .WithName("GetIssues");
@@ -56,7 +59,8 @@ app.MapPost("/api/issues", (CreateIssueDto newIssue) =>
         newIssue.Title,
         newIssue.Description ?? "",
         "Open",
-        newIssue.Tags ?? System.Array.Empty<string>()
+        newIssue.Tags ?? System.Array.Empty<string>(),
+        DateTime.UtcNow
     );
     
     issues.Add(issue);
@@ -94,6 +98,6 @@ app.MapDelete("/api/issues/{id}", (int id) =>
 
 app.Run();
 
-record Issue(int Id, string Title, string Description, string Status, string[] Tags);
+record Issue(int Id, string Title, string Description, string Status, string[] Tags, DateTime CreatedAt);
 record CreateIssueDto(string Title, string? Description, string[]? Tags);
 record UpdateIssueDto(string? Title, string? Description, string? Status);
