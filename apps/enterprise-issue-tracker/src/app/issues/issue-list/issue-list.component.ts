@@ -4,6 +4,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 // Import the wrappers
 import { IssueCardComponent } from '../issue-card/issue-card.component'; 
+import { IssueEditComponent } from '../issue-edit/issue-edit.component';
 // Import the services
 import { IssueService } from '../issue.service'; 
 // Import the directives
@@ -14,7 +15,11 @@ import { ToastService } from '../../shared/service/toast.service';
 
 @Component({
     selector: 'app-issue-list',
-    imports: [IssueCardComponent, SkeletonLoaderDirective, TimeAgoPipe], // Add to imports
+    imports: [
+      IssueCardComponent, 
+      IssueEditComponent,
+      SkeletonLoaderDirective, 
+      TimeAgoPipe], // Add to imports
     templateUrl: './issue-list.component.html',
     styleUrl: './issue-list.component.css'
 })
@@ -36,17 +41,6 @@ export class IssueListComponent {
         this.announcer.announce(`Successfully loaded ${issues.length} issues`, 'polite');
       }
     });
-  }
-
-  onSaveEdit() {
-    const selected = this.issueService.selectedIssue();
-    if (selected) {
-      this.issueService.updateIssueTitle(selected.id, this.issueService.draftTitle());
-      this.issueService.selectedIssue.set(null); // <-- Add this line to hide the form!
-      
-      // Programmatically spawn the toast!
-      this.toastService.show('Issue successfully updated!');
-    }
   }
 
   viewDetails(id: number) {

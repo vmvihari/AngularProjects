@@ -1,0 +1,11 @@
+@if (issueService.selectedIssue()) {
+  <div class="edit-form-container">
+    <h3>Editing: {{ issueService.selectedIssue()?.title }}</h3>
+    <input 
+      [value]="issueService.draftTitle()" 
+      (input)="issueService.draftTitle.set($any($event.target).value)" 
+      class="edit-input" />
+    <button (click)="onSaveEdit()" class="btn-save">Save</button>
+    <button (click)="issueService.selectedIssue.set(null)" class="btn-cancel">Cancel</button>
+  </div>
+}

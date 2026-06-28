@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-
-import { IssueListComponent } from './issues/issue-list/issue-list.component';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
@@ -18,5 +16,7 @@ export const routes: Routes = [
         loadComponent: () => import('./issues/issue-detail/issue-detail.component').then(m => m.IssueDetailComponent)
     },
     // Render IssueListComponent when the URL is /issues
-    { path: 'issues', component: IssueListComponent }
+    { 
+        path: 'issues', loadComponent: () => import('./issues/issue-list/issue-list.component').then(m => m.IssueListComponent) 
+    }
 ];

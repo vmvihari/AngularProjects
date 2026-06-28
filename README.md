@@ -58,6 +58,12 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [Dynamic Component Loading](docs/phase-7-advanced-ui/04-dynamic-components.md)
 5. [Accessibility (a11y)](docs/phase-7-advanced-ui/05-accessibility-and-a11y.md)
 
+### Phase 8: Performance, SSR & Architecture
+1. [Rendering & Hydration](docs/phase-8-architecture/01-rendering-and-hydration.md)
+2. [Deferrable Views](docs/phase-8-architecture/02-deferrable-views.md)
+3. [Change Detection](docs/phase-8-architecture/03-change-detection.md)
+4. [Enterprise Architecture](docs/phase-8-architecture/04-enterprise-architecture.md)
+
 ---
 
 *This project is built and maintained as part of an advanced Angular tutorial series.*
