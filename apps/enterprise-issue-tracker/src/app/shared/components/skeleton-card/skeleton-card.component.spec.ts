@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SkeletonCardComponent } from './skeleton-card.component';
 
 describe('SkeletonCardComponent', () => {
@@ -11,7 +10,7 @@ describe('SkeletonCardComponent', () => {
       imports: [SkeletonCardComponent]
     })
     .compileComponents();
-
+    
     fixture = TestBed.createComponent(SkeletonCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

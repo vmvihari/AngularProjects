@@ -67,4 +67,10 @@ export const appConfig: ApplicationConfig = {
 3. Delete `"zone.js"`.
 4. Restart your Angular development server.
 
+> [!WARNING]
+> **Gotcha: The Karma Test Runner**
+> While your *application* (`build` target) can run perfectly in Zoneless mode, the default **Karma Test Runner** (`test` target) fundamentally requires `"zone.js"` and `"zone.js/testing"` in its polyfills array to bootstrap the testing environment properly. 
+> 
+> If you delete `"zone.js"` from the `test` polyfills array by mistake, Karma will silently crash internally and output `0 of 0 SUCCESS`! Keep your `build` polyfills empty for peak application performance, but leave `zone.js` in your `test` polyfills until you migrate to a modern testing framework like Vitest or Jest.
+
 Your app is now running completely without `Zone.js`! It is relying 100% on the granular reactivity of Signals to update the UI. You have achieved peak Angular performance!
