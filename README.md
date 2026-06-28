@@ -65,13 +65,13 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [Enterprise Architecture](docs/phase-8-architecture/04-enterprise-architecture.md)
 
 ### Phase 9: Testing Architecture 🚀
-1. [Module 1: Unit Testing Fundamentals](file:///e:/Git/AngularProjects/docs/phase-9-testing/01-unit-testing.md)
-2. [Module 2: Isolated Testing (Directives)](file:///e:/Git/AngularProjects/docs/phase-9-testing/02-isolated-testing-directives.md)
-3. [Module 3: Services & Mocking](file:///e:/Git/AngularProjects/docs/phase-9-testing/03-services-and-mocking.md)
-4. [Module 4: Component Harnesses](file:///e:/Git/AngularProjects/docs/phase-9-testing/04-component-harnesses.md)
-5. [Module 5: RouterTestingHarness](file:///e:/Git/AngularProjects/docs/phase-9-testing/05-router-testing-harness.md)
-6. [Module 6: Independent Practice](file:///e:/Git/AngularProjects/docs/phase-9-testing/06-independent-practice.md)
-7. [Module 7: The Future - Migrating to Vitest](file:///e:/Git/AngularProjects/docs/phase-9-testing/07-future-vitest-migration.md)
+1. [Module 1: Unit Testing Fundamentals](docs/phase-9-testing/01-unit-testing.md)
+2. [Module 2: Isolated Testing (Directives)](docs/phase-9-testing/02-isolated-testing-directives.md)
+3. [Module 3: Services & Mocking](docs/phase-9-testing/03-services-and-mocking.md)
+4. [Module 4: Component Harnesses](docs/phase-9-testing/04-component-harnesses.md)
+5. [Module 5: RouterTestingHarness](docs/phase-9-testing/05-router-testing-harness.md)
+6. [Module 6: Independent Practice](docs/phase-9-testing/06-independent-practice.md)
+7. [Module 7: The Future - Migrating to Vitest](docs/phase-9-testing/07-future-vitest-migration.md)
 
 ---
 
