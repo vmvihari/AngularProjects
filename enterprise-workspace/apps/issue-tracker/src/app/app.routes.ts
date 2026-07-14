@@ -17,6 +17,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('@enterprise-workspace/feature-issue-detail').then(m => m.FeatureIssueDetail)
   },
   {
+    path: 'settings',
+    canActivate: [authGuard],
+    loadComponent: () => import('@enterprise-workspace/feature-settings').then(m => m.FeatureSettings)
+  },
+  {
     path: '', // Default route
     redirectTo: 'dashboard',
     pathMatch: 'full'

@@ -33,6 +33,12 @@
       ],
       "@enterprise-workspace/feature-issue-detail": [
         "./libs/issues/feature-issue-detail/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-user-profile": [
+        "./libs/shared/ui-user-profile/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-settings": [
+        "./libs/issues/feature-settings/src/index.ts"
       ]
     }
   },

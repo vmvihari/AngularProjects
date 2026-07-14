@@ -34,6 +34,9 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [Route Guards](docs/module-1-foundation/phase-3-routing-and-navigation/04-route-guards.md)
 5. [Lazy Loading](docs/module-1-foundation/phase-3-routing-and-navigation/05-lazy-loading.md)
 
+#### Assignment
+- [Module 1 Assignment: Settings Feature](docs/module-1-foundation/assignment/module-1-assignment.md)
+
 ### Module 2: Modern Reactivity & State Management
 #### Phase 4: Modern Reactivity
 1. [Signals](docs/module-2-reactivity/phase-4-modern-reactivity/01-signals.md)
