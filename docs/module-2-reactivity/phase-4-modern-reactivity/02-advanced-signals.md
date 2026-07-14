@@ -1,134 +1,110 @@
-# Module 2: Advanced Signals
+# Phase 4, Lesson 2: Advanced Signals
 
-Let's move on to Advanced Signals, starting with `linkedSignal`.
+Now that you've mastered `signal` and `computed`, let's dive into Advanced Signals! We will cover two massive upgrades: **Signal Inputs** and **Linked Signals**.
 
-While a `computed` signal is entirely read-only, a `linkedSignal` lets you create a writable signal whose value is intrinsically linked to some other state. You pass it a computation function (just like `computed`), but you can still manually update its value using `.set()` or `.update()`.
+### 1. Signal Inputs
+For the last decade, Angular developers have used the `@Input()` decorator to pass data into a component. In modern Angular, we use `input()` which returns a read-only Signal. This means you can now easily derive `computed()` state directly from your inputs!
 
-If the underlying dependent state changes, the `linkedSignal` automatically resets itself to the new computed result.
+### 2. Linked Signals
+While a `computed` signal is entirely read-only, a `linkedSignal` lets you create a *writable* signal whose value is intrinsically linked to some other state. You provide it a computation function, but you can still manually update its value using `.set()` or `.update()`. If the underlying source state changes, the `linkedSignal` automatically resets itself!
 
-## Your Task: Add an "Edit Issue" Feature
+---
 
-Let's add an "Edit Issue" feature. When you select an issue, we want a `draftTitle` signal to automatically populate with that issue's current title. Because it's a `linkedSignal`, we can let the user type to overwrite the draft, and it will automatically reset if they select a different issue.
+## 🎯 Bootcamp Task: The Inline Editor
 
-### 1. Update `src/app/issue-list/issue-list.component.ts`
+We are going to build an "Edit Title" feature on our Issue Details page. When the user navigates to an issue, a `draftTitle` signal will automatically populate with that issue's current title. Because it is a `linkedSignal`, the user can type into an input box to overwrite the draft. If they navigate to a different issue, the `draftTitle` will automatically reset!
 
-Add an output event so we can select an issue to edit:
-
+### Step 1: Add a new Service Method
+Open `libs/issues/data-access/src/lib/issue.service.ts` and add a new method to update a title:
 ```typescript
-import { Component, input, output } from '@angular/core';
-import { IssueCardComponent } from '../issue-card/issue-card.component';
-
-@Component({
-  selector: 'app-issue-list',
-  standalone: true,
-  imports: [IssueCardComponent],
-  template: `
-    <h2>Current Issues</h2>
-    @for (issue of issues(); track issue.id) {
-      <app-issue-card>
-        <strong>{{ issue.title }}</strong> 
-        <span style="margin-left: 10px;">[{{ issue.status }}]</span>
-        
-        @if (issue.status === 'Open') {
-          <button actions (click)="resolveIssue.emit(issue.id)">Resolve</button>
-        }
-        <!-- Add an edit button -->
-        <button actions (click)="editIssue.emit(issue.id)" style="margin-left: 5px;">Edit</button>
-      </app-issue-card>
-    } @empty {
-      <p>No issues found.</p>
-    }
-  `
-})
-export class IssueListComponent {
-  issues = input<{id: number, title: string, status: string}[]>([]);
-  resolveIssue = output<number>();
-  editIssue = output<number>(); // New output
-}
-```
-
-### 2. Update `src/app/app.component.ts`
-
-Add the `linkedSignal` to hold the draft state, and a simple edit form in the template:
-
-```typescript
-import { Component, signal, computed, linkedSignal } from '@angular/core';
-import { IssueListComponent } from './issue-list/issue-list.component';
-
-@Component({
-  selector: 'app-root',
-  imports: [IssueListComponent],
-  template: `
-    <div class="layout">
-      <aside class="sidebar">
-        <h2>Issue Tracker</h2>
-        <nav>Issues</nav>
-      </aside>
-      <main class="content">
-        <h3 style="margin-top: 0;">Open Issues: {{ openIssuesCount() }}</h3>
-        
-        <app-issue-list 
-          [issues]="issuesList()" 
-          (resolveIssue)="onResolve($event)"
-          (editIssue)="onEdit($event)">
-        </app-issue-list>
-
-        <!-- Our inline editor using the linkedSignal -->
-        @if (selectedIssue()) {
-          <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 4px;">
-            <h3>Editing: {{ selectedIssue()?.title }}</h3>
-            <!-- Bind the input to the draftTitle linkedSignal -->
-            <input 
-              [value]="draftTitle()" 
-              (input)="draftTitle.set($any($event.target).value)" 
-              style="padding: 5px; width: 250px;" />
-            <button (click)="onSaveEdit()" style="margin-left: 10px;">Save Changes</button>
-            <button (click)="selectedIssue.set(null)" style="margin-left: 5px;">Cancel</button>
-          </div>
-        }
-      </main>
-    </div>
-  `,
-  styles: [ /* ... keep existing styles ... */ ]
-})
-export class AppComponent {
-  issuesList = signal([
-    { id: 1, title: 'Fix login validation', status: 'Open' },
-    { id: 2, title: 'Update routing module', status: 'Closed' },
-    { id: 3, title: 'Build issue list component', status: 'Open' }
-  ]);
-
-  openIssuesCount = computed(() => 
-    this.issuesList().filter(issue => issue.status === 'Open').length
-  );
-
-  // Track the issue currently being edited
-  selectedIssue = signal<{id: number, title: string, status: string} | null>(null);
-
-  // linkedSignal: defaults to the selected issue's title, but updates freely when typed in!
-  draftTitle = linkedSignal(() => this.selectedIssue()?.title ?? '');
-
-  onResolve(issueId: number) {
-    this.issuesList.update(issues => 
-      issues.map(issue => issue.id === issueId ? { ...issue, status: 'Closed' } : issue)
-    );
-  }
-
-  onEdit(issueId: number) {
-    const issue = this.issuesList().find(i => i.id === issueId);
-    this.selectedIssue.set(issue || null);
-  }
-
-  onSaveEdit() {
-    this.issuesList.update(issues => 
+  updateTitle(issueId: number, newTitle: string) {
+    this.state.update(issues => 
       issues.map(issue => 
-        issue.id === this.selectedIssue()?.id ? { ...issue, title: this.draftTitle() } : issue
+        issue.id === issueId ? { ...issue, title: newTitle } : issue
       )
     );
-    this.selectedIssue.set(null); // Close the editor
+  }
+```
+
+### Step 2: Upgrade your Component to Signal Inputs
+Open `libs/issues/feature-issue-detail/src/lib/feature-issue-detail/feature-issue-detail.ts`.
+
+Replace your old `@Input` and `get issue()` with modern Signals:
+```typescript
+import { Component, input, computed, linkedSignal, inject } from '@angular/core';
+// ... (keep your other imports)
+
+export class FeatureIssueDetail {
+  private issueService = inject(IssueService);
+  
+  // 1. Upgrade to a Signal Input!
+  id = input.required<string>(); 
+
+  // 2. Upgrade to a Computed Signal!
+  // It automatically recalculates whenever the URL 'id' changes!
+  issue = computed(() => this.issueService.getIssueById(Number(this.id())));
+
+  // 3. Create a Linked Signal!
+  // It defaults to the issue's title, but can be overwritten by the user!
+  draftTitle = linkedSignal(() => this.issue()?.title ?? '');
+
+  saveTitle() {
+    const currentIssue = this.issue();
+    if (currentIssue) {
+      this.issueService.updateTitle(currentIssue.id, this.draftTitle());
+    }
   }
 }
 ```
 
-Try clicking "Edit" on different issues. Notice how `draftTitle` instantly resets to match the newly selected issue, but you can still type into the input box to overwrite it.
+### Step 3: Update the Template
+Open `feature-issue-detail.html` and update it to read your new signals, and add the new inline editor!
 
+Replace your old `@if (issue)` block with this:
+```html
+<div class="detail-container">
+  @if (issue(); as currentIssue) {
+    <header class="detail-header">
+      <div class="title-group">
+        <a routerLink="/issues" class="back-btn">
+          <!-- your existing SVG back arrow -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back to Issues
+        </a>
+        
+        <!-- THE NEW INLINE EDITOR -->
+        <div class="editor-group" style="margin-top: 16px; display: flex; gap: 8px;">
+          <!-- Bind the input value to draftTitle(), and update the signal on keypress -->
+          <input 
+            [value]="draftTitle()" 
+            (input)="draftTitle.set($any($event.target).value)" 
+            class="title-input"
+            style="font-size: 1.5rem; font-weight: 800; padding: 4px 12px; border-radius: 8px; border: 1px solid #e2e8f0; width: 400px;"
+          />
+          <button (click)="saveTitle()" class="resolve-btn" style="padding: 8px 16px;">Save</button>
+        </div>
+      </div>
+      <!-- ... keep your existing status badge ... -->
+      <span class="status-badge" [class.open]="currentIssue.status === 'Open'" [class.closed]="currentIssue.status === 'Closed'">
+        {{ currentIssue.status }}
+      </span>
+    </header>
+    <!-- ... keep your existing detail-body ... -->
+    <div class="detail-body">
+      <p>Detailed view for issue <strong>#{{ currentIssue.id }}</strong>.</p>
+    </div>
+  }
+</div>
+```
+
+### Step 4: Validate!
+1. Save your files and open your browser to the Dashboard.
+2. Click on an Issue to view its details.
+3. You should see an input box pre-populated with the issue's title!
+4. Type a new title and click **Save**.
+5. Click "Back to Issues". You will see your new title is now instantly reflected everywhere in the application!
+
+> [!TIP]
+> **Optional Enhancement**: You can further polish this feature by adding custom CSS to your Save button to make it pop, or by using another `signal` to temporarily display a "✅ Saved!" success message when the user clicks save. Feel free to enhance it as you see fit!
+
+You've successfully mastered `linkedSignal` and `input()`. Onward to the next lesson!

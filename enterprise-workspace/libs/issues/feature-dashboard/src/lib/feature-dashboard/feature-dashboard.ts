@@ -8,13 +8,5 @@ import { IssueService } from '@enterprise-workspace/data-access';
   styleUrl: './feature-dashboard.css',
 })
 export class FeatureDashboard {
-  private issueService = inject(IssueService);
-
-  get totalIssues() {
-    return this.issueService.getIssues().length;
-  }
-
-  get openIssues() {
-    return this.issueService.getIssues().filter(i => i.status === 'Open').length;
-  }
+  public issueService = inject(IssueService);
 }

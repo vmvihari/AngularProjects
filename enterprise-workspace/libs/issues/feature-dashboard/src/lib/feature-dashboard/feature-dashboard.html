@@ -4,12 +4,12 @@
   <div class="metrics-grid">
     <div class="metric-card">
       <h3>Total Issues</h3>
-      <div class="value">{{ totalIssues }}</div>
+      <div class="value">{{ issueService.totalIssuesCount() }}</div>
     </div>
     
     <div class="metric-card alert">
       <h3>Needs Attention</h3>
-      <div class="value">{{ openIssues }}</div>
+      <div class="value">{{ issueService.openIssuesCount() }}</div>
     </div>
   </div>
 </div>
