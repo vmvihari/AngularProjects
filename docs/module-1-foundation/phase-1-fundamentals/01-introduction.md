@@ -1,4 +1,4 @@
-# Module 1: Introduction to Enterprise Angular
+# Phase 1, Lesson 1: Introduction to Enterprise Angular
 
 The purpose of this course is to leverage your senior .NET background to rapidly build expert-level proficiency in Angular. We will skip the absolute basics and focus on modern, enterprise-grade architecture so you can confidently market yourself for senior Angular roles.
 
@@ -15,12 +15,14 @@ Angular is a web framework maintained by Google that empowers developers to buil
 
 Throughout this curriculum, we will build a single, comprehensive project: an **Enterprise Issue Tracking System**. This application will serve as the proving ground for every concept we cover.
 
-During this project, you will implement:
+During this project, you will implement true enterprise architecture, including:
 
-*   Advanced, Signal-driven reactive forms.
-*   Custom, highly accessible UI components.
-*   Lazy-loaded routing with advanced data resolvers.
-*   Robust, automated testing suites.
+*   **Nx Monorepo Architecture:** Managing the app and isolated feature libraries.
+*   **Domain-Driven Design (DDD):** Strict separation of domains, UI, and state.
+*   **Enterprise State Management:** Using the modern **NgRx SignalStore**.
+*   **Real-time Synchronization:** Connecting the Angular frontend to .NET SignalR.
+*   **Advanced UI & Forms:** Signal-driven reactive forms and accessible components.
+*   **Robust Quality Assurance:** Automated unit testing (Vitest) and E2E testing (Playwright).
 
 ## Our Ultimate Goal
 

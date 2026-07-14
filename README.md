@@ -15,10 +15,13 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 #### Phase 1: Angular Fundamentals
 1. [Introduction](docs/module-1-foundation/phase-1-fundamentals/01-introduction.md)
 2. [Architecture and Setup](docs/module-1-foundation/phase-1-fundamentals/02-architecture-and-setup.md)
-3. [The Anatomy of a Component](docs/module-1-foundation/phase-1-fundamentals/03-component-anatomy.md)
-4. [Modern Control Flow](docs/module-1-foundation/phase-1-fundamentals/04-control-flow.md)
-5. [Component Communication](docs/module-1-foundation/phase-1-fundamentals/05-component-communication.md)
-6. [Content Projection](docs/module-1-foundation/phase-1-fundamentals/06-content-projection.md)
+3. [Domain-Driven Design (DDD)](docs/module-1-foundation/phase-1-fundamentals/03-domain-driven-design.md)
+4. [Standalone Components](docs/module-1-foundation/phase-1-fundamentals/04-standalone-components.md)
+5. [The Anatomy of a Component](docs/module-1-foundation/phase-1-fundamentals/05-component-anatomy.md)
+6. [Modern Control Flow](docs/module-1-foundation/phase-1-fundamentals/06-control-flow.md)
+7. [Component Communication](docs/module-1-foundation/phase-1-fundamentals/07-component-communication.md)
+8. [Smart vs. Dumb Components](docs/module-1-foundation/phase-1-fundamentals/08-smart-vs-dumb-components.md)
+9. [Content Projection](docs/module-1-foundation/phase-1-fundamentals/09-content-projection.md)
 
 #### Phase 2: Dependency Injection (DI) & Services
 1. [Services](docs/module-1-foundation/phase-2-di-and-services/01-services.md)

@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+lib-ui-card.resolved {
+  opacity: 0.7;
+}
+
+lib-ui-card.resolved strong {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+strong {
+  font-size: 1.05rem;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.issue-id {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-family: monospace;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: inline-block;
+}
+
+.badge.open {
+  background: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+}
+
+.badge.closed {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.resolve-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #10b981;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resolve-btn:hover {
+  background: #ecfdf5;
+  border-color: #10b981;
+  transform: scale(1.02);
+}

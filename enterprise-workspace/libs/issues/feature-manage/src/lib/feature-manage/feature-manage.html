@@ -1,0 +1,22 @@
+<div class="feature-container">
+  <div class="header-section">
+    <h2>Manage Issues</h2>
+    <lib-ui-issue-filters (filterChange)="filterIssues($event)">
+    </lib-ui-issue-filters>
+  </div>
+
+  <ul class="issue-list">
+    @for (issue of issues; track issue.id) {
+    <lib-ui-issue-card [issue]="issue" (resolve)="resolveIssue($event)">
+    </lib-ui-issue-card>
+    } @empty {
+    <div class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M8 12h8"></path>
+      </svg>
+      <p>No issues found. Everything is great!</p>
+    </div>
+    }
+  </ul>
+</div>

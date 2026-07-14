@@ -1,0 +1,26 @@
+<lib-ui-card [class.resolved]="issue.status === 'Closed'">
+  <!-- This goes to the title slot -->
+  <strong card-title>
+    <span class="issue-id">#ISSUE-{{ issue.id }}</span>
+    {{ issue.title }}
+  </strong>
+
+  <!-- This goes to the default body slot -->
+  <div class="issue-body-content">
+    @if (issue.status === 'Open') {
+      <span class="badge open">Needs Attention</span>
+    } @else {
+      <span class="badge closed">Resolved</span>
+    }
+  </div>
+
+  <!-- This goes to the footer slot -->
+  @if (issue.status === 'Open') {
+    <button card-footer class="resolve-btn" (click)="onResolve()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+      Mark Resolved
+    </button>
+  }
+</lib-ui-card>

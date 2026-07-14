@@ -1,0 +1,90 @@
+{
+  "name": "issue-tracker",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/issue-tracker/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/issue-tracker",
+        "browser": "apps/issue-tracker/src/main.ts",
+        "tsConfig": "apps/issue-tracker/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/issue-tracker/public"
+          }
+        ],
+        "styles": [
+          "apps/issue-tracker/src/styles.css"
+        ],
+        "server": "apps/issue-tracker/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/issue-tracker/src/server.ts"
+        },
+        "outputMode": "server"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "production": {
+          "buildTarget": "issue-tracker:build:production"
+        },
+        "development": {
+          "buildTarget": "issue-tracker:build:development"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "watch": false
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "issue-tracker:build",
+        "port": 4200,
+        "staticFilePath": "dist/apps/issue-tracker/browser",
+        "spa": true
+      }
+    }
+  }
+}

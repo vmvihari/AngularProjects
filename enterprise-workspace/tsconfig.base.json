@@ -1,0 +1,31 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "strict": false,
+    "paths": {
+      "@enterprise-workspace/feature-manage": [
+        "./libs/issues/feature-manage/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-issue-card": [
+        "./libs/issues/ui-issue-card/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-issue-filters": [
+        "./libs/issues/ui-issue-filters/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-card": ["./libs/shared/ui-card/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
