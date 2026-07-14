@@ -5,11 +5,12 @@
       <h2>Tracker<span class="highlight">Pro</span></h2>
     </div>
     <nav>
-      <a href="#" class="nav-item active">
+      <!-- Notice we replaced href="#" with routerLink and added routerLinkActive! -->
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
         <span class="icon">📊</span>
         Dashboard
       </a>
-      <a href="#" class="nav-item">
+      <a routerLink="/issues" routerLinkActive="active" class="nav-item">
         <span class="icon">🎯</span>
         Issues
       </a>

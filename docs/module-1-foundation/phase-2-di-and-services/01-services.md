@@ -1,155 +1,102 @@
-# Module 1: Services & Dependency Injection
+# Phase 2, Lesson 1: Services & Dependency Injection
 
-In Angular, services are reusable classes used to handle data fetching and business logic, which keeps your components clean and focused purely on the UI.
+In Angular, **Services** are reusable classes used to handle data fetching, state management, and business logic. This keeps your Smart components clean and focused purely on orchestrating the UI.
 
-Coming from .NET, you are likely used to registering services in your `Program.cs` and injecting them via constructors. In modern Angular, we simply decorate the class with `@Injectable({providedIn: 'root'})` (or the new `@Service()` decorator) to automatically register it as a singleton across the entire app. We then pull it into our components using the built-in `inject()` function.
+Coming from .NET, you are familiar with Dependency Injection (DI) through `Program.cs` and constructor injection. In Angular, DI is built-in and incredibly powerful. 
 
-## Your Task: Create an Issue Service
+By decorating a class with `@Injectable({ providedIn: 'root' })`, you automatically register it as a singleton across the entire application. We can then pull it into our components using the modern `inject()` function!
 
-Let's move our mock data and update logic out of the `AppComponent` and into a dedicated service.
+## Data Access in Nx
+In our Enterprise Nx Architecture, services that handle data should live in a dedicated **Data Access** library (e.g., `data-access`). This ensures our state logic is highly decoupled from our feature UI, allowing multiple features to share the exact same state without duplicating code.
 
-Run this command in your terminal to generate the service: 
+---
+
+## 🎯 Bootcamp Task: Create an Issue Service
+
+Right now, our mock data and resolving logic are hardcoded directly into the `FeatureManage` component. Let's extract that into an Enterprise Service!
+
+### Step 1: Generate the Data Access Library
+Run this Nx command to create a `data-access` library in the issues domain:
+
 ```bash
-ng generate service issue
+npx nx g @nx/angular:library --directory=libs/issues/data-access
 ```
+*(Remember: restart your `npx nx serve` terminal after this so it picks up the new TSConfig path alias!)*
 
-Replace the code in `src/app/issue.service.ts` with this:
+### Step 2: Create the Service
+Delete the default component files Nx generated inside `libs/issues/data-access/src/lib/`. 
+
+Create a new file `libs/issues/data-access/src/lib/issue.service.ts` and move our mock data and logic into it:
 
 ```typescript
-import { Injectable, resource } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class IssueService {
-  // We moved the resource here from the AppComponent
-  issuesResource = resource({
-    loader: async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return [
-        { id: 1, title: 'Fix login validation', status: 'Open' },
-        { id: 2, title: 'Update routing module', status: 'Closed' },
-        { id: 3, title: 'Build issue list component', status: 'Open' }
-      ];
-    }
-  });
+  // We moved the mock data here!
+  private issues = [
+    { id: 1, title: 'Fix login validation', status: 'Open' },
+    { id: 2, title: 'Update routing module', status: 'Closed' },
+    { id: 3, title: 'Build issue list component', status: 'Open' }
+  ];
+
+  getIssues() {
+    return this.issues;
+  }
 
   resolveIssue(issueId: number) {
-    this.issuesResource.value.update(issues => 
-      (issues ?? []).map(issue => issue.id === issueId ? { ...issue, status: 'Closed' } : issue)
-    );
-  }
-
-  updateIssueTitle(issueId: number, newTitle: string) {
-    this.issuesResource.value.update(issues => 
-      (issues ?? []).map(issue => 
-        issue.id === issueId ? { ...issue, title: newTitle } : issue
-      )
-    );
+    const issue = this.issues.find(i => i.id === issueId);
+    if (issue) {
+      issue.status = 'Closed';
+    }
   }
 }
 ```
 
-We definitely need to inject that service into our `AppComponent` to clean up the code.
+### Step 3: Export the Service
+Don't forget the Nx golden rule! If another library wants to use your service, you must export it from your library's public API.
 
-In modern Angular, you don't need to use constructor injection like you typically do in C#. Instead, you use the built-in `inject()` function from `@angular/core`.
+Open `libs/issues/data-access/src/index.ts`. Replace its contents with this to export your new service:
+```typescript
+export * from './lib/issue.service';
+```
 
-### Your Task: Inject the Service
+### Step 4: Inject the Service into your Feature Component
+Open `libs/issues/feature-manage/src/lib/feature-manage/feature-manage.ts`. 
 
-Update your `src/app/app.component.ts` to inject the `IssueService` and remove the hardcoded resource logic. Here is the updated code (keeping the RxJS search feature we built earlier):
+Now that our data lives in the service, we can delete the hardcoded array and rely purely on DI! Update your `FeatureManage` class:
 
 ```typescript
-import { Component, signal, computed, linkedSignal, inject } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime } from 'rxjs/operators';
-import { IssueListComponent } from './issues/issue-list/issue-list.component';
-import { IssueService } from './issues/issue.service';
+import { Component, inject } from '@angular/core';
+import { UiIssueCard } from '@enterprise-workspace/ui-issue-card';
+import { UiIssueFilters } from '@enterprise-workspace/ui-issue-filters';
+import { IssueService } from '@enterprise-workspace/data-access'; // Import your service!
 
 @Component({
-  selector: 'app-root',
-  imports: [IssueListComponent],
-  template: `
-    <div class="layout">
-      <aside class="sidebar">
-        <h2>Issue Tracker</h2>
-        <nav>Issues</nav>
-      </aside>
-      <main class="content">
-        <h3 style="margin-top: 0;">Open Issues: {{ openIssuesCount() }}</h3>
-        
-        <input 
-          placeholder="Search issues..." 
-          (input)="searchTerm.set($any($event.target).value)" 
-          style="padding: 5px; margin-bottom: 15px; width: 250px;" 
-        />
-        
-        @if (issueService.issuesResource.isLoading()) {
-          <p>Loading issues from server...</p>
-        } @else {
-          <app-issue-list 
-            [issues]="filteredIssues()" 
-            (resolveIssue)="issueService.resolveIssue($event)"
-            (editIssue)="onEdit($event)">
-          </app-issue-list>
-        }
-
-        @if (selectedIssue()) {
-          <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 4px;">
-            <h3>Editing: {{ selectedIssue()?.title }}</h3>
-            <input 
-              [value]="draftTitle()" 
-              (input)="draftTitle.set($any($event.target).value)" 
-              style="padding: 5px; width: 250px;" />
-            <button (click)="onSaveEdit()" style="margin-left: 10px;">Save</button>
-            <button (click)="selectedIssue.set(null)" style="margin-left: 5px;">Cancel</button>
-          </div>
-        }
-      </main>
-    </div>
-  `,
-  styles: [ /* ... keep existing styles ... */ ]
+  selector: 'lib-feature-manage',
+  imports: [UiIssueCard, UiIssueFilters],
+  templateUrl: './feature-manage.html',
+  styleUrl: './feature-manage.css',
 })
-export class AppComponent {
-  // 1. Inject the service
-  issueService = inject(IssueService);
+export class FeatureManage {
+  // Inject the service using modern Angular DI!
+  private issueService = inject(IssueService);
 
-  // 2. Read from the injected service
-  openIssuesCount = computed(() => 
-    (this.issueService.issuesResource.value() ?? []).filter(issue => issue.status === 'Open').length
-  );
-
-  searchTerm = signal('');
-  searchTerm$ = toObservable(this.searchTerm).pipe(debounceTime(300));
-  debouncedSearch = toSignal(this.searchTerm$, { initialValue: '' });
-
-  filteredIssues = computed(() => {
-    const issues = this.issueService.issuesResource.value() ?? [];
-    const term = this.debouncedSearch().toLowerCase();
-    return issues.filter(i => i.title.toLowerCase().includes(term));
-  });
-
-  selectedIssue = signal<{id: number, title: string, status: string} | null>(null);
-  draftTitle = linkedSignal(() => this.selectedIssue()?.title ?? '');
-
-  onEdit(issueId: number) {
-    const issue = (this.issueService.issuesResource.value() ?? []).find(i => i.id === issueId);
-    this.selectedIssue.set(issue || null);
+  // Expose the issues to the HTML template using a getter!
+  get issues() {
+    return this.issueService.getIssues();
+  }
+  
+  resolveIssue(issueId: number) {
+    // Tell the service to do the work!
+    this.issueService.resolveIssue(issueId);
   }
 
-  onSaveEdit() {
-    if (this.selectedIssue()) {
-      // 3. Call the service to update
-      this.issueService.updateIssueTitle(this.selectedIssue()!.id, this.draftTitle());
-    }
-    this.selectedIssue.set(null);
+  filterIssues(status: string) {
+    // You can handle filtering here later using the service!
+    console.log('Filtering by:', status);
   }
 }
 ```
 
-Notice how much leaner the `AppComponent` class is now that it delegates the data management directly to `IssueService`!
-
-## Component-Scoped Services (Transient/Scoped Lifetimes)
-
-Just like in .NET where you might use Transient or Scoped lifetimes, Angular allows you to create non-singleton services that are tied to a specific component's lifecycle.
-
-You will need this when a service manages component-specific state (like a specific form's data), handles local caching, or when you are building reusable UI components that need their own isolated data.
-
-To do this, you set `autoProvided: false` on the `@Service()` decorator. Then, you register the service directly in the `providers` array of the `@Component`. Angular will then create a fresh instance of the service every time that component is created.
+Because we created a `get issues()` getter in the TypeScript class, your `feature-manage.html` template doesn't need to change at all! It will continue looping over `issues` exactly as it did before, but now the data is seamlessly flowing from your injected service.

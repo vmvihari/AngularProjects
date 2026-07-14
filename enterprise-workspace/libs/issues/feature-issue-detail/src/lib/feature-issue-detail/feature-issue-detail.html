@@ -1,0 +1,30 @@
+<div class="detail-container">
+  @if (issue) {
+    <a routerLink="/issues" class="back-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Issues
+    </a>
+    
+    <h2><span class="issue-id">#ISSUE-{{ issue.id }}</span> {{ issue.title }}</h2>
+    
+    <div class="status-row">
+      <span class="status-label">Current Status:</span>
+      <strong [class.open]="issue.status === 'Open'" [class.closed]="issue.status === 'Closed'">
+        {{ issue.status }}
+      </strong>
+    </div>
+  } @else {
+    <div class="not-found">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <p>Issue not found!</p>
+      <a routerLink="/issues" class="back-link">Return to Safety</a>
+    </div>
+  }
+</div>

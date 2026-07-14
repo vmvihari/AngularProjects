@@ -8,8 +8,8 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 ## Table of Contents
 
 ### Projects
-- [Project Source Code: Enterprise Issue Tracker (Angular)](apps/enterprise-issue-tracker/)
-- [Project Source Code: Enterprise Issue Tracker (ASP.NET Core API)](apps/IssueTracker.Api/)
+- [Project Source Code: Enterprise Issue Tracker (Angular)](enterprise-workspace/apps/issue-tracker/)
+- [Project Source Code: Enterprise Issue Tracker (ASP.NET Core API) - Coming Soon](#)
 
 ### Module 1: The Angular Foundation
 #### Phase 1: Angular Fundamentals

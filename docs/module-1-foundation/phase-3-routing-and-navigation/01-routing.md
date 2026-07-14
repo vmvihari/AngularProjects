@@ -1,109 +1,109 @@
-# Module 1: Routing
+# Phase 3, Lesson 1: Basic Routing
 
-Let's configure routing. In Angular, routing manages which component is displayed based on the URL, operating entirely in the client's browser. It requires mapping URL paths to components and using a `<router-outlet>` element as a placeholder for the framework to render the active view.
+Welcome to Phase 3! So far, our application has only rendered a single view. To build a true Single Page Application (SPA), we need to swap out entire views based on the URL without ever refreshing the page. 
 
-Because routed components are loaded dynamically by the router, they cannot easily receive data from a parent component via an Input property. Instead, routed components typically inject services directly to fetch their own data.
+Angular handles this using its incredibly powerful Router.
 
-## Your Task: Route Configuration
+## How it works
 
-Let's make `IssueListComponent` a "smart" routed component by having it inject the `IssueService`, and then we will define our application routes.
+In modern Angular (Standalone architecture), the router is configured in your `app.config.ts` using `provideRouter(routes)`. You define an array of `Route` objects that map a specific URL path to a Component.
 
-### 1. Update the List Component
+When a user visits a matching URL, the Router takes that Component and injects it directly into the `<router-outlet></router-outlet>` placeholder inside your shell's template.
 
-Open `src/app/issues/issue-list/issue-list.component.ts` and update it to inject the service directly:
+To navigate between these views without triggering a full page reload, you must use the `routerLink` directive instead of standard `href` attributes on your `<a>` tags.
 
-```typescript
-import { Component, inject } from '@angular/core';
-import { IssueCardComponent } from '../issue-card/issue-card.component';
-import { IssueService } from '../issue.service';
+```html
+<!-- Incorrect (causes a full page refresh!) -->
+<a href="/dashboard">Go to Dashboard</a>
 
-@Component({
-  selector: 'app-issue-list',
-  standalone: true,
-  imports: [IssueCardComponent],
-  template: `
-    <h2>Current Issues</h2>
-    @for (issue of issueService.issuesResource.value(); track issue.id) {
-      <app-issue-card>
-        <strong>{{ issue.title }}</strong> 
-        <span style="margin-left: 10px;">[{{ issue.status }}]</span>
-        
-        @if (issue.status === 'Open') {
-          <button actions (click)="issueService.resolveIssue(issue.id)">Resolve</button>
-        }
-      </app-issue-card>
-    } @empty {
-      <p>No issues found.</p>
-    }
-  `
-})
-export class IssueListComponent {
-  issueService = inject(IssueService);
-}
+<!-- Correct (handled instantly by the Angular Router!) -->
+<a routerLink="/dashboard">Go to Dashboard</a>
 ```
 
-### 2. Define the Routes
+---
 
-Open the `src/app/app.routes.ts` file (which the Angular CLI generated for you). We will map the `/issues` path to your component and set up a redirect so the application defaults to that page.
+## 🎯 Bootcamp Task: Build the Dashboard
+
+Let's expand our Issue Tracker by adding a second page: a Dashboard!
+
+### Step 1: Generate a new Feature Library
+Following our enterprise architecture, each "page" or "route" should be its own `feature-*` library. Run this command to generate a Dashboard feature:
+
+```bash
+npx nx g @nx/angular:library --directory=libs/issues/feature-dashboard
+```
+*(As always, restart your `npx nx serve` terminal after generating a library so it picks up the new `@enterprise-workspace/feature-dashboard` TSConfig path!)*
+
+### Step 2: Configure the Routes
+Open `apps/issue-tracker/src/app/app.routes.ts`. 
+
+We are going to move our `FeatureManage` component to the `/issues` path, map our new `FeatureDashboard` to the `/dashboard` path, and set up a default redirect. 
+
+Update your routes array to look exactly like this:
 
 ```typescript
-import { Routes } from '@angular/router';
-import { IssueListComponent } from './issues/issue-list/issue-list.component';
+import { Route } from '@angular/router';
 
-export const routes: Routes = [
-  // Redirect the root URL to /issues
-  { path: '', redirectTo: 'issues', pathMatch: 'full' },
-  // Render IssueListComponent when the URL is /issues
-  { path: 'issues', component: IssueListComponent }
+export const appRoutes: Route[] = [
+  {
+    path: 'dashboard',
+    loadComponent: () => import('@enterprise-workspace/feature-dashboard').then(m => m.FeatureDashboard)
+  },
+  {
+    path: 'issues',
+    loadComponent: () => import('@enterprise-workspace/feature-manage').then(m => m.FeatureManage)
+  },
+  {
+    path: '', // Default route
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  }
 ];
 ```
 
-### 3. Update the App Component
+### Step 3: Add Navigation Links to the Shell
+Now that we have routes, our users need a way to click between them! 
 
-To make the router work, we need to use `<router-outlet>`, which acts as a placeholder where Angular will dynamically insert our routed components. We also need to use the `RouterLink` directive instead of a standard `href` attribute so that navigation happens entirely on the client side without reloading the page.
+Open your main shell template (`apps/issue-tracker/src/app/app.html`). You already have a beautiful glassmorphism sidebar with `href="#"` links. Let's upgrade those to use the Angular Router!
 
-Update your `src/app/app.component.ts` to replace the hardcoded issue list with the router outlet and add the navigation link. We can still keep the `IssueService` injected here to show the total open issues at the top:
+Find the `<nav>` inside your `<aside class="glass-sidebar">` and update the Dashboard and Issues links:
+
+```html
+<nav>
+  <!-- Notice we replaced href="#" with routerLink and added routerLinkActive! -->
+  <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+    <span class="icon">📊</span>
+    Dashboard
+  </a>
+  <a routerLink="/issues" routerLinkActive="active" class="nav-item">
+    <span class="icon">🎯</span>
+    Issues
+  </a>
+  <a href="#" class="nav-item">
+    <span class="icon">⚙️</span>
+    Settings
+  </a>
+</nav>
+```
+
+### Step 4: Import the Router Directives
+If you click your links right now, absolutely nothing will happen! Why? 
+
+Because we are using **Standalone Components**. In the old Angular NgModule days, `RouterModule` was imported globally, making `routerLink` available everywhere. Now, you must explicitly import exactly what you need.
+
+Open `apps/issue-tracker/src/app/app.ts` and add `RouterLink` and `RouterLinkActive` to your component's imports array:
 
 ```typescript
-import { Component, computed, inject } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
-import { IssueService } from './issues/issue.service';
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink], // Import the routing directives
-  template: `
-    <div class="layout">
-      <aside class="sidebar">
-        <h2>Issue Tracker</h2>
-        <nav>
-          <!-- Use routerLink instead of href -->
-          <a routerLink="/issues" style="color: white; text-decoration: none;">Issues</a>
-        </nav>
-      </aside>
-      <main class="content">
-        <h3 style="margin-top: 0;">Open Issues: {{ openIssuesCount() }}</h3>
-        
-        <!-- The router will dynamically load the IssueListComponent here -->
-        <router-outlet></router-outlet>
-      </main>
-    </div>
-  `,
-  styles: [\`
-    .layout { display: flex; height: 100vh; font-family: sans-serif; margin: -8px; }
-    .sidebar { width: 220px; background: #2c3e50; color: white; padding: 20px; }
-    .content { flex: 1; padding: 20px; background: #ecf0f1; }
-  \\`]
+  imports: [RouterOutlet, RouterLink, RouterLinkActive], // <-- Add them here!
+  templateUrl: './app.html',
+  styleUrl: './app.css',
 })
-export class AppComponent {
-  issueService = inject(IssueService);
-
-  openIssuesCount = computed(() => 
-    (this.issueService.issuesResource.value() ?? []).filter(issue => issue.status === 'Open').length
-  );
-
-  // You can leave the remaining code unchanged...
-}
+export class App { }
 ```
 
-Save this, and your application is now officially using Angular routing!
+Check your browser! You should now have a fully functioning Single Page Application. Click the links in your sidebar to watch the page instantly swap between your new Dashboard and your Issue list!

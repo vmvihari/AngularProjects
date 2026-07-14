@@ -24,7 +24,16 @@
       "@enterprise-workspace/ui-issue-filters": [
         "./libs/issues/ui-issue-filters/src/index.ts"
       ],
-      "@enterprise-workspace/ui-card": ["./libs/shared/ui-card/src/index.ts"]
+      "@enterprise-workspace/ui-card": ["./libs/shared/ui-card/src/index.ts"],
+      "@enterprise-workspace/data-access": [
+        "./libs/issues/data-access/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-dashboard": [
+        "./libs/issues/feature-dashboard/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-issue-detail": [
+        "./libs/issues/feature-issue-detail/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

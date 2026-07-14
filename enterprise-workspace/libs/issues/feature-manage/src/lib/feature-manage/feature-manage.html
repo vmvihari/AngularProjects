@@ -7,7 +7,7 @@
 
   <ul class="issue-list">
     @for (issue of issues; track issue.id) {
-    <lib-ui-issue-card [issue]="issue" (resolve)="resolveIssue($event)">
+    <lib-ui-issue-card [issue]="issue" (resolve)="resolveIssue($event)" (view)="viewIssue(issue.id)">
     </lib-ui-issue-card>
     } @empty {
     <div class="empty-state">

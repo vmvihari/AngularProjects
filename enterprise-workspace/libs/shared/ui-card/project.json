@@ -4,7 +4,7 @@
   "sourceRoot": "libs/shared/ui-card/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": [],
+  "tags": ["domain:shared", "type:ui"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

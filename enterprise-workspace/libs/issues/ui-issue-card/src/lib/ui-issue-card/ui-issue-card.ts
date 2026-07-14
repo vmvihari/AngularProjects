@@ -10,8 +10,13 @@ import { UiCard } from '@enterprise-workspace/ui-card';
 export class UiIssueCard {
   @Input({ required: true }) issue!: any;
   @Output() resolve = new EventEmitter<number>();
+  @Output() view = new EventEmitter<void>();
 
   onResolve() {
     this.resolve.emit(this.issue.id);
+  }
+
+  onView() {
+    this.view.emit();
   }
 }

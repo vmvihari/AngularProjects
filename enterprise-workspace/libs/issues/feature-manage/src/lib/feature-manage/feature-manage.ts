@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { UiIssueCard } from '@enterprise-workspace/ui-issue-card';
 import { UiIssueFilters } from '@enterprise-workspace/ui-issue-filters';
+import { IssueService } from '@enterprise-workspace/data-access'; // Import 
 
 @Component({
   selector: 'lib-feature-manage',
@@ -9,22 +11,26 @@ import { UiIssueFilters } from '@enterprise-workspace/ui-issue-filters';
   styleUrl: './feature-manage.css',
 })
 export class FeatureManage {
-  // Mock data representing our issues
-  issues = [
-    { id: 1, title: 'Fix login validation', status: 'Open' },
-    { id: 2, title: 'Update routing module', status: 'Closed' },
-    { id: 3, title: 'Build issue list component', status: 'Open' }
-  ];
+
+  // Inject the service using modern Angular DI!
+  private issueService = inject(IssueService);
+  private router = inject(Router);
+
+  // Expose the issues to the HTML template using a getter!
+  get issues() {
+    return this.issueService.getIssues();
+  }
 
   resolveIssue(issueId: number) {
-    // Find the issue by ID and update its status to 'Closed'
-    const issue = this.issues.find(i => i.id === issueId);
-    if (issue) {
-      issue.status = 'Closed';
-    }
+    // Tell the service to do the work!
+    this.issueService.resolveIssue(issueId);
   }
 
   filterIssues(status: string) {
     console.log('Filtering by:', status);
+  }
+
+  viewIssue(issueId: number) {
+    this.router.navigate(['/issues', issueId]);
   }
 }

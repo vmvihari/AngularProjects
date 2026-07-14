@@ -4,7 +4,7 @@
   "sourceRoot": "libs/issues/ui-issue-filters/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": [],
+  "tags": ["domain:issues", "type:ui"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
