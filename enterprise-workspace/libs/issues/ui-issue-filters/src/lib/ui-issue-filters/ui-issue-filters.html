@@ -1,0 +1,13 @@
+<div class="filter-bar">
+  <span class="filter-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+    </svg>
+    Filter by:
+  </span>
+  <div class="filter-options">
+    <button class="filter-btn" [class.active]="activeFilter() === 'All'" (click)="onSelectFilter('All')">All</button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'Open'" (click)="onSelectFilter('Open')">Open</button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'Closed'" (click)="onSelectFilter('Closed')">Closed</button>
+  </div>
+</div>

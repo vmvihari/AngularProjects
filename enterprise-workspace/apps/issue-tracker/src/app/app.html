@@ -1,0 +1,46 @@
+<div class="app-container">
+  <aside class="glass-sidebar">
+    <div class="brand">
+      <div class="logo-glow"></div>
+      <h2>Tracker<span class="highlight">Pro</span></h2>
+    </div>
+    <nav>
+      <!-- Notice we replaced href="#" with routerLink and added routerLinkActive! -->
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="icon">📊</span>
+        Dashboard
+      </a>
+      <a routerLink="/issues" routerLinkActive="active" class="nav-item">
+        <span class="icon">🎯</span>
+        Issues
+      </a>
+      <a routerLink="/settings" routerLinkActive="active" class="nav-item">
+        <span class="icon">⚙️</span>
+        Settings
+      </a>
+    </nav>
+  </aside>
+  
+  <main class="content-area">
+    <header class="topbar">
+
+      <div style="margin-right: 20px;">
+        <button 
+          (click)="preferences.toggleTheme()"
+          style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;"
+        >
+          {{ preferences.theme() === 'dark' ? '☀️' : '🌙' }}
+        </button>
+      </div>
+
+      <div class="user-profile">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jane" alt="User Avatar">
+      </div>
+    </header>
+    
+    <div class="router-wrapper">
+      <!-- The routed components will load here -->
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

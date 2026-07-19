@@ -1,0 +1,129 @@
+/* You can add global styles to this file, and also import other style files */
+body.dark-theme {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+body.dark-theme .topbar {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.8) !important;
+}
+
+body.dark-theme .sidebar {
+  background: #1e293b !important;
+  border-right: 1px solid #334155 !important;
+}
+
+/* Generic UI Card */
+body.dark-theme .enterprise-card {
+  /* Use a darker background than the container to make them pop */
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .card-header {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .card-body {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .card-footer {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme lib-ui-card strong {
+  color: #f8fafc !important;
+}
+
+
+/* Layout Containers */
+body.dark-theme .content-area {
+  background: #0f172a !important;
+}
+
+body.dark-theme .feature-container {
+  background: #1e293b !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+body.dark-theme .search-input {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+/* UI Filters */
+body.dark-theme .filter-bar {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .filter-options {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .filter-btn.active {
+  background: #334155 !important;
+  color: #60a5fa !important;
+}
+
+body.dark-theme .filter-btn:not(.active) {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .filter-label {
+  color: #94a3b8 !important;
+}
+
+/* Feature Issue Detail */
+body.dark-theme .detail-container {
+  background: rgba(30, 41, 59, 0.75) !important;
+  border-color: rgba(51, 65, 85, 0.6) !important;
+}
+
+body.dark-theme h2 {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .status-row {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .status-label {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .back-link {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+/* App Nav */
+body.dark-theme .nav-item {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item:hover {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .nav-item.active {
+  background: #1e293b !important;
+  color: #60a5fa !important;
+}
+
+/* Issue Card Buttons */
+body.dark-theme .view-btn,
+body.dark-theme .resolve-btn {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}

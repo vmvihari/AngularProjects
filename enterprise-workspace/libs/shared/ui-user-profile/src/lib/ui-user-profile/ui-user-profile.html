@@ -1,0 +1,12 @@
+<div class="profile-card">
+  <div class="avatar-slot">
+    <!-- Using Content Projection for the Avatar! -->
+    <ng-content></ng-content>
+  </div>
+  
+  <div class="profile-details">
+    <h3>{{ user.name }}</h3>
+    <span class="role-badge">{{ user.role }}</span>
+    <p class="email">{{ user.email }}</p>
+  </div>
+</div>

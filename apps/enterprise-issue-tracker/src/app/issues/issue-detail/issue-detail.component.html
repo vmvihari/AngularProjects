@@ -1,9 +1,0 @@
-<h2>Issue Details</h2>
-
-@if (issue()) { 
-    <h3>{{ issue()?.title }}</h3>
-    <p>Status: {{ issue()?.status }}</p>
-}
-@else {
-    <p>Issue not found.</p>
-}

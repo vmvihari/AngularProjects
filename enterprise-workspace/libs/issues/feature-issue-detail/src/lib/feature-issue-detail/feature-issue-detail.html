@@ -1,0 +1,54 @@
+<div class="detail-container">
+  @if (issue(); as currentIssue) {
+    <header class="detail-header">
+      <div class="title-group">
+        <a routerLink="/issues" class="back-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Issues
+        </a>
+
+        <h2>
+          <span class="issue-id">#ISSUE-{{ currentIssue.id }}</span>
+      </h2>
+        <!-- THE NEW INLINE EDITOR -->
+        <div class="editor-group" style="margin-top: 16px; margin-bottom: 16px; display: flex; gap: 8px;">
+          <!-- Bind the input value to draftTitle(), and update the signal on keypress -->
+          <input 
+            [value]="draftTitle()" 
+            (input)="draftTitle.set($any($event.target).value)" 
+            class="title-input"
+            style="font-size: 1.5rem; font-weight: 800; padding: 4px 12px; border-radius: 8px; border: 1px solid #e2e8f0; width: 400px;"
+          />
+          <button (click)="saveTitle()" class="save-btn" style="padding: 8px 16px;">Save</button>
+          
+          @if (showSuccess()) {
+            <span class="success-msg">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Saved!
+            </span>
+          }
+        </div>
+      </div>
+    
+      <div class="status-row">
+        <span class="status-label">Current Status:</span>
+        <strong [class.open]="currentIssue.status === 'Open'" [class.closed]="currentIssue.status === 'Closed'">
+          {{ currentIssue.status }}
+        </strong>
+      </div>
+    </header>
+  } @else {
+    <div class="not-found">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <p>Issue not found!</p>
+      <a routerLink="/issues" class="back-link">Return to Safety</a>
+    </div>
+  }
+</div>
