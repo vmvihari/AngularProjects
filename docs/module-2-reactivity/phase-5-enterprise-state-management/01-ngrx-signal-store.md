@@ -17,11 +17,11 @@ npm install @ngrx/signals --legacy-peer-deps
 ```
 
 ### Step 2: Create the Issue Store
-Open `libs/issues/data-access/src/lib/issue.service.ts`. We are going to completely rewrite this into a Signal Store. 
+Open `libs/issues/data-access/src/lib/issue.store.ts` (you should rename this from `issue.service.ts`!). We are going to completely rewrite this into a Signal Store. 
 
 In NgRx SignalStore, you define a store using the `signalStore()` function, combined with features like `withState()`, `withComputed()`, and `withMethods()`.
 
-Replace the contents of `issue.service.ts` with the following:
+Replace the contents of `issue.store.ts` with the following:
 
 ```typescript
 import { computed } from '@angular/core';
