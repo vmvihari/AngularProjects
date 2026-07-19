@@ -5,7 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { UiIssueCard } from '@enterprise-workspace/ui-issue-card';
 import { UiIssueFilters } from '@enterprise-workspace/ui-issue-filters';
-import { IssueService } from '@enterprise-workspace/data-access';
+import { IssueStore } from '@enterprise-workspace/data-access';
 
 @Component({
   selector: 'lib-feature-manage',
@@ -16,8 +16,16 @@ import { IssueService } from '@enterprise-workspace/data-access';
 export class FeatureManage {
 
   // Inject the service using modern Angular DI!
-  public issueService = inject(IssueService);
+  public issueStore = inject(IssueStore);
   private router = inject(Router);
+
+  ngOnInit() {
+    // Only load if we don't have data yet. 
+    // This allows loadIssues() to still be used for a 'Refresh' button later!
+    if (this.issueStore.issues().length === 0) {
+      this.issueStore.loadIssues();
+    }
+  }
 
   // 1. Create a FormControl for our search input
   searchControl = new FormControl('');
@@ -34,7 +42,7 @@ export class FeatureManage {
   // 4. Create a computed signal that combines the issues from the service with our local search term!
   filteredIssues = computed(() => {
     const term = this.searchTerm()?.toLowerCase() || '';
-    const allIssues = this.issueService.issues();
+    const allIssues = this.issueStore.issues();
     
     if (!term) return allIssues;
     
@@ -44,11 +52,12 @@ export class FeatureManage {
   });
 
   resolveIssue(issueId: number) {
-    this.issueService.resolveIssue(issueId);
+    this.issueStore.resolveIssue(issueId);
   }
 
   filterIssues(status: string) {
-    console.log('Filtering by:', status);
+    // Using type assertion to match our strict types
+    this.issueStore.updateFilter(status as any);
   }
 
   viewIssue(issueId: number) {

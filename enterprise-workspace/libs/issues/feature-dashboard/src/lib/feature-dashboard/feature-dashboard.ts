@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { IssueService } from '@enterprise-workspace/data-access';
+import { IssueStore } from '@enterprise-workspace/data-access';
 
 @Component({
   selector: 'lib-feature-dashboard',
@@ -8,5 +8,5 @@ import { IssueService } from '@enterprise-workspace/data-access';
   styleUrl: './feature-dashboard.css',
 })
 export class FeatureDashboard {
-  public issueService = inject(IssueService);
+  public issueStore = inject(IssueStore);
 }

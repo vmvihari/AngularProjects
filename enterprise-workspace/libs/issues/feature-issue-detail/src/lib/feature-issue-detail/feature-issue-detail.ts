@@ -1,7 +1,7 @@
 import { Component, input, inject, computed, linkedSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { IssueService } from '@enterprise-workspace/data-access';
+import { IssueStore } from '@enterprise-workspace/data-access';
 
 @Component({
   selector: 'lib-feature-issue-detail',
@@ -10,14 +10,14 @@ import { IssueService } from '@enterprise-workspace/data-access';
   styleUrl: './feature-issue-detail.css',
 })
 export class FeatureIssueDetail {
-  private issueService = inject(IssueService);
+  private issueStore = inject(IssueStore);
   
   // 1. Upgrade to a Signal Input!
   id = input.required<string>(); 
 
   // 2. Upgrade to a Computed Signal!
   // It automatically recalculates whenever the URL 'id' changes!
-  issue = computed(() => this.issueService.getIssueById(Number(this.id())));
+  issue = computed(() => this.issueStore.getIssueById(Number(this.id())));
 
   // 3. Create a Linked Signal!
   // It defaults to the issue's title, but can be overwritten by the user!
@@ -29,7 +29,7 @@ export class FeatureIssueDetail {
   saveTitle() {
     const currentIssue = this.issue();
     if (currentIssue) {
-      this.issueService.updateTitle(currentIssue.id, this.draftTitle());
+      this.issueStore.updateTitle(currentIssue.id, this.draftTitle());
       
       // Show success message briefly
       this.showSuccess.set(true);
