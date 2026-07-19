@@ -34,7 +34,8 @@ export const PreferencesStore = signalStore(
   withMethods((store) => ({
     toggleTheme() {
       patchState(store, (state) => ({
-        theme: state.theme === 'light' ? 'dark' : 'light'
+        // We use 'as Theme' because TypeScript occasionally broadens ternary string literals to 'string'
+        theme: (state.theme === 'light' ? 'dark' : 'light') as Theme
       }));
     }
   })),
@@ -114,10 +115,42 @@ Let's add a button to the `.topbar` container to toggle the theme! Insert this r
       </div>
 ```
 
-### Step 5: Try it out!
+### Step 5: Add Dark Mode CSS!
+Right now our state management works perfectly, but we don't have any actual CSS written for our `.dark-theme` class! 
+
+Open `apps/issue-tracker/src/styles.css` (the global styles file) and add the following basic overrides:
+
+```css
+body.dark-theme {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+body.dark-theme .topbar {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.8) !important;
+}
+
+body.dark-theme .sidebar {
+  background: #1e293b !important;
+  border-right: 1px solid #334155 !important;
+}
+
+body.dark-theme .issue-card {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .search-input {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+```
+
+### Step 6: Try it out!
 Save your files and test out your app in the browser.
-Click the moon icon in the top right. You should see the icon change to a sun! If you open your browser's Developer Tools -> Application -> Local Storage, you will see `app-theme` saved as `dark`.
+Click the moon icon in the top right. You should see the icon change to a sun, AND your entire application should instantly transition to a sleek dark mode! 
 
-If you refresh the page, it will remember your selection!
-
-*(Note: We haven't actually written the CSS for `.dark-theme` yet, but the state management persistence is fully functional!)*
+If you open your browser's Developer Tools -> Application -> Local Storage, you will see `app-theme` saved as `dark`. If you refresh the page, the application will boot up and instantly remember your dark mode preference!

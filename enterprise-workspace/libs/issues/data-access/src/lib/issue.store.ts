@@ -1,7 +1,8 @@
-import { computed } from '@angular/core';
-import { signalStore, withState, withComputed, withMethods, patchState } from '@ngrx/signals';
+import { computed, inject, effect } from '@angular/core';
+import { signalStore, withState, withComputed, withMethods, patchState, withHooks } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, delay, tap } from 'rxjs';
+import { StorageService } from '@enterprise-workspace/data-access'
 
 // 1. Define the state shape
 export interface Issue {
@@ -77,5 +78,26 @@ export const IssueStore = signalStore(
         })
       )
     )
-  }))
+  })), // <--- FIXED: Added the second closing parenthesis here!
+  withHooks({
+    onInit(store) {
+      // 1. Inject the StorageService
+      const storage = inject(StorageService);
+      
+      // 2. Load the saved filter (Type assert it to match our strict types)
+      const savedFilter = storage.getItem('issue-tracker-filter') as 'All' | 'Open' | 'Closed';
+      
+      // 3. If a saved filter exists, patch the state!
+      if (savedFilter) {
+        patchState(store, { filter: savedFilter });
+      }
+      
+      // 4. STEP 2 OF ASSIGNMENT: Synchronize state changes back to storage
+      // effect() automatically tracks any signals called inside of it!
+      effect(() => {
+        const currentFilter = store.filter();
+        storage.setItem('issue-tracker-filter', currentFilter);
+      });
+    }
+  })
 );

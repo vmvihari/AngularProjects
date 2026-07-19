@@ -127,6 +127,20 @@ Open `libs/issues/feature-manage/src/lib/feature-manage/feature-manage.ts`:
        // Using type assertion to match our strict types
        this.issueStore.updateFilter(status as any);
      }
+     
+     // Update the computed signal to read from the store's pre-filtered issues!
+     filteredIssues = computed(() => {
+       const term = this.searchTerm()?.toLowerCase() || '';
+       // We read from the store's `filteredIssues()` so we respect the UI Filter (Open/Closed)
+       // BEFORE applying the local text search!
+       const activeIssues = this.issueStore.filteredIssues();
+       
+       if (!term) return activeIssues;
+       
+       return activeIssues.filter(issue => 
+         issue.title.toLowerCase().includes(term)
+       );
+     });
      // ...
    }
    ```
@@ -140,7 +154,8 @@ Find and replace all instances of `issueService` with `issueStore`.
     ...
   } @else {
     <ul class="issue-list">
-      @for (issue of issueStore.filteredIssues(); track issue.id) {
+      <!-- Continue using your local filteredIssues() signal so the search box still works! -->
+      @for (issue of filteredIssues(); track issue.id) {
 ```
 
 ### Step 5: Try it out!

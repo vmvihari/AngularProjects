@@ -42,11 +42,13 @@ export class FeatureManage {
   // 4. Create a computed signal that combines the issues from the service with our local search term!
   filteredIssues = computed(() => {
     const term = this.searchTerm()?.toLowerCase() || '';
-    const allIssues = this.issueStore.issues();
+    // We read from the store's `filteredIssues()` so we respect the UI Filter (Open/Closed)
+    // BEFORE applying the local text search!
+    const activeIssues = this.issueStore.filteredIssues();
     
-    if (!term) return allIssues;
+    if (!term) return activeIssues;
     
-    return allIssues.filter(issue => 
+    return activeIssues.filter(issue => 
       issue.title.toLowerCase().includes(term)
     );
   });

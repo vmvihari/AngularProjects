@@ -10,7 +10,10 @@
       placeholder="Search issues..." 
       class="search-input"
     />
-    <lib-ui-issue-filters (filterChange)="filterIssues($event)"></lib-ui-issue-filters>
+    <lib-ui-issue-filters 
+      [activeFilter]="issueStore.filter()" 
+      (filterChange)="filterIssues($event)">
+    </lib-ui-issue-filters>
   </div>
 
   @if (issueStore.isLoading()) {

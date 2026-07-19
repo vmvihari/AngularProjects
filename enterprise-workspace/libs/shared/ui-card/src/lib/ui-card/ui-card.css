@@ -6,7 +6,7 @@
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   transition: all 0.2s ease;
   overflow: hidden;
   display: flex;
@@ -15,7 +15,7 @@
 
 .enterprise-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border-color: #cbd5e1;
 }
 
@@ -49,6 +49,7 @@
 }
 
 /* Hide structural areas if the parent didn't project any content into them */
-.card-header:empty, .card-footer:empty {
+.card-header:empty,
+.card-footer:empty {
   display: none;
 }

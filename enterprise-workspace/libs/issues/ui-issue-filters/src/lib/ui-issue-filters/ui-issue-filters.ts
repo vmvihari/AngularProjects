@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, input } from '@angular/core';
 
 @Component({
   selector: 'lib-ui-issue-filters',
@@ -7,6 +7,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrl: './ui-issue-filters.css',
 })
 export class UiIssueFilters {
+  // Use a modern signal input to receive the active filter state
+  activeFilter = input<string>('All');
+  
   @Output() filterChange = new EventEmitter<string>();
 
   onSelectFilter(status: string) {

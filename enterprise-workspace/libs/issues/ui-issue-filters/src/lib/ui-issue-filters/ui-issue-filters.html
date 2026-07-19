@@ -6,8 +6,8 @@
     Filter by:
   </span>
   <div class="filter-options">
-    <button class="filter-btn" (click)="onSelectFilter('All')">All</button>
-    <button class="filter-btn" (click)="onSelectFilter('Open')">Open</button>
-    <button class="filter-btn" (click)="onSelectFilter('Closed')">Closed</button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'All'" (click)="onSelectFilter('All')">All</button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'Open'" (click)="onSelectFilter('Open')">Open</button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'Closed'" (click)="onSelectFilter('Closed')">Closed</button>
   </div>
 </div>

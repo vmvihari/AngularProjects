@@ -24,6 +24,15 @@
   <main class="content-area">
     <header class="topbar">
 
+      <div style="margin-right: 20px;">
+        <button 
+          (click)="preferences.toggleTheme()"
+          style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s;"
+        >
+          {{ preferences.theme() === 'dark' ? '☀️' : '🌙' }}
+        </button>
+      </div>
+
       <div class="user-profile">
         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jane" alt="User Avatar">
       </div>
