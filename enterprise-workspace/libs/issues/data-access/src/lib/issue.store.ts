@@ -1,8 +1,10 @@
 import { computed, inject, effect } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState, withHooks } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, delay, tap } from 'rxjs';
+import { pipe, delay, tap, switchMap } from 'rxjs';
 import { StorageService } from '@enterprise-workspace/data-access'
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../apps/issue-tracker/src/environments/environment';
 
 // 1. Define the state shape
 export interface Issue {
@@ -39,7 +41,7 @@ export const IssueStore = signalStore(
     totalCount: computed(() => store.issues().length),
     openCount: computed(() => store.issues().filter(i => i.status === 'Open').length)
   })),
-  withMethods((store) => ({
+  withMethods((store, http = inject(HttpClient)) => ({
     // Synchronous state updates
     updateFilter(filter: 'All' | 'Open' | 'Closed') {
       patchState(store, { filter });
@@ -50,6 +52,9 @@ export const IssueStore = signalStore(
           issue.id === id ? { ...issue, status: 'Closed' } : issue
         )
       }));
+
+      // 2. Background Sync
+      http.put(`${environment.apiUrl}/issues/${id}`, { status: 'Closed' }).subscribe();
     },
     getIssueById(id: number) {
       return store.issues().find(issue => issue.id === id);
@@ -60,22 +65,19 @@ export const IssueStore = signalStore(
           issue.id === id ? { ...issue, title: newTitle } : issue
         )
       }));
+
+      // 2. Background Sync
+      http.put(`${environment.apiUrl}/issues/${id}`, { title: newTitle }).subscribe();
     },
     // Asynchronous operations using RxJS Interop!
     loadIssues: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
-        delay(1000), // Simulate network
-        tap(() => {
-          patchState(store, {
-            issues: [
-              { id: 1, title: 'Fix login validation', status: 'Open' },
-              { id: 2, title: 'Update routing module', status: 'Closed' },
-              { id: 3, title: 'Build issue list component', status: 'Open' }
-            ],
-            isLoading: false
-          });
-        })
+        switchMap(() => http.get<Issue[]>(`${environment.apiUrl}/issues`).pipe(
+          tap((issues) => {
+          patchState(store, { issues, isLoading: false });
+          })
+        ))
       )
     )
   })), // <--- FIXED: Added the second closing parenthesis here!
