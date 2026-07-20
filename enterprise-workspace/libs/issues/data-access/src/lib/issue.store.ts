@@ -11,6 +11,8 @@ export interface Issue {
   id: number;
   title: string;
   status: string;
+  description?: string;
+  tags?: string[];
 }
 
 interface IssueState {
@@ -45,6 +47,16 @@ export const IssueStore = signalStore(
     // Synchronous state updates
     updateFilter(filter: 'All' | 'Open' | 'Closed') {
       patchState(store, { filter });
+    },
+    addIssue(title: string, description: string, tags: string[] = []) {
+      // 1. Optimistic UI Update
+      const tempId = Date.now(); 
+      patchState(store, (state) => ({
+        issues: [...state.issues, { id: tempId, title, description, status: 'Open', tags }]
+      }));
+
+      // 2. Background Sync
+      http.post(`${environment.apiUrl}/issues`, { title, description, status: 'Open', tags }).subscribe();
     },
     resolveIssue(id: number) {
       patchState(store, (state) => ({
