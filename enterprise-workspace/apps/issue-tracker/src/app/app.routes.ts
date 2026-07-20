@@ -4,7 +4,7 @@ import { authGuard, roleGuard } from './core/guards/auth.guard';
 export const appRoutes: Route[] = [
   {
     path: 'login',
-    loadComponent: () => import('@enterprise-workspace/feature-auth').then(m => m.Login)
+    loadComponent: () => import('@enterprise-workspace/feature-auth').then(m => m.FeatureAuthComponent)
   },{
     path: 'dashboard',
     loadComponent: () => import('@enterprise-workspace/feature-dashboard').then(m => m.FeatureDashboard)
