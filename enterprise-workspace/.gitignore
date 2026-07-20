@@ -49,3 +49,7 @@ Thumbs.db
 __screenshots__/
 
 vitest.config.*.timestamp*
+# .NET API
+[Bb]in/
+[Oo]bj/
+
