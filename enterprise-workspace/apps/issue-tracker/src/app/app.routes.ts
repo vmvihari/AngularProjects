@@ -1,8 +1,11 @@
 import { Route } from '@angular/router';
-import { authGuard } from '@enterprise-workspace/data-access';
+import { authGuard, roleGuard } from './core/guards/auth.guard';
 
 export const appRoutes: Route[] = [
   {
+    path: 'login',
+    loadComponent: () => import('@enterprise-workspace/feature-auth').then(m => m.Login)
+  },{
     path: 'dashboard',
     loadComponent: () => import('@enterprise-workspace/feature-dashboard').then(m => m.FeatureDashboard)
   },
@@ -18,7 +21,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'settings',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard(['Admin', 'Manager'])], // <-- Only Admins and Managers can access!
     loadComponent: () => import('@enterprise-workspace/feature-settings').then(m => m.FeatureSettings)
   },
   {

@@ -1,6 +1,7 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { PreferencesStore, StorageService } from '@enterprise-workspace/data-access';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { PreferencesStore, StorageService } from '@enterprise-workspace/data-acc
 export class App { 
   public preferences = inject(PreferencesStore);
   private storage = inject(StorageService);
+  private document = inject(DOCUMENT);
 
   constructor() {
     // This effect runs automatically whenever 'theme()' changes!
@@ -22,9 +24,9 @@ export class App {
       
       // 2. Update the DOM to apply the theme
       if (currentTheme === 'dark') {
-        document.body.classList.add('dark-theme');
+        this.document.body.classList.add('dark-theme');
       } else {
-        document.body.classList.remove('dark-theme');
+        this.document.body.classList.remove('dark-theme');
       }
     });
   }

@@ -64,7 +64,11 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 5. [Mutations and Reactivity](docs/module-3-data-forms-security/phase-7-http-and-data-fetching/05-mutations-and-reactivity.md)
 
 #### Phase 8: Authentication, Authorization & Security
-- *(Content coming soon...)*
+1. [Authentication Service](docs/module-3-data-forms-security/phase-8-auth-and-security/01-authentication-service.md)
+2. [The Login Workflow](docs/module-3-data-forms-security/phase-8-auth-and-security/02-login-workflow.md)
+3. [Route Guards & Roles](docs/module-3-data-forms-security/phase-8-auth-and-security/03-route-guards.md)
+4. [Dynamic Interceptors](docs/module-3-data-forms-security/phase-8-auth-and-security/04-dynamic-interceptors.md)
+5. [Role-Based Authorization](docs/module-3-data-forms-security/phase-8-auth-and-security/05-role-based-authorization.md)
 
 #### Phase 9: Forms & Validation
 1. [Reactive Forms](docs/module-3-data-forms-security/phase-9-forms-and-validation/01-reactive-forms.md)

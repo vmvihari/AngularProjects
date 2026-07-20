@@ -100,6 +100,9 @@ export const IssueStore = signalStore(
         const currentFilter = store.filter();
         storage.setItem('issue-tracker-filter', currentFilter);
       });
+
+      // 5. Auto-fetch the issues when the Store initializes!
+      store.loadIssues();
     }
   })
 );

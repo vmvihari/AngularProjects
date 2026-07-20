@@ -19,14 +19,6 @@ export class FeatureManage {
   public issueStore = inject(IssueStore);
   private router = inject(Router);
 
-  ngOnInit() {
-    // Only load if we don't have data yet. 
-    // This allows loadIssues() to still be used for a 'Refresh' button later!
-    if (this.issueStore.issues().length === 0) {
-      this.issueStore.loadIssues();
-    }
-  }
-
   // 1. Create a FormControl for our search input
   searchControl = new FormControl('');
 
