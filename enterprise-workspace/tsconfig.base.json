@@ -42,6 +42,9 @@
       ],
       "@enterprise-workspace/shared-util-auth": [
         "./libs/shared/util-auth/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-auth": [
+        "./libs/shared/feature-auth/src/index.ts"
       ]
     }
   },

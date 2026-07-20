@@ -1,0 +1,17 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Enterprise Login</h2>
+    <p>Select a role to simulate a backend authentication flow.</p>
+    
+    <div class="form-group">
+      <label>Select Role:</label>
+      <select [(ngModel)]="selectedRole">
+        <option value="Admin">Admin</option>
+        <option value="Manager">Manager</option>
+        <option value="Developer">Developer</option>
+        <option value="Viewer">Viewer</option>
+      </select>
+    </div>
+    <button (click)="onLogin()">Login</button>
+  </div>
+</div>
