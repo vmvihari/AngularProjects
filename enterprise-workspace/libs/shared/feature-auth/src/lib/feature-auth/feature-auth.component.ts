@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { AuthStore, Role } from '@enterprise-workspace/shared-util-auth';
 
 @Component({
-  selector: 'lib-login',
+  selector: 'lib-feature-auth',
   imports: [FormsModule],
-  templateUrl: './login.html',
-  styleUrl: './login.css',
+  templateUrl: './feature-auth.component.html',
+  styleUrl: './feature-auth.component.css',
 })
-export class Login {
+export class FeatureAuthComponent {
   public authStore = inject(AuthStore);
   private router = inject(Router);
 
