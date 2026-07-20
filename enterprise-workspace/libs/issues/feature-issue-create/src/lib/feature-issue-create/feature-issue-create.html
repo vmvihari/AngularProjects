@@ -1,1 +1,71 @@
-<p>FeatureIssueCreate works!</p>
+<div class="form-container">
+  <h2>Create New Issue</h2>
+  
+  <!-- Bind the [formGroup] directive to our TS model! -->
+  <form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
+    
+    <div class="form-group">
+      <label>Issue Title</label>
+      <!-- Bind this input to the specific FormControl -->
+      <input type="text" formControlName="title" placeholder="E.g., Server is down..." />
+      
+      <!-- Validation Error Rendering -->
+      @if (issueForm.controls.title.touched) {
+        @if (issueForm.controls.title.errors?.['required']) {
+            <span class="error-msg">Title is required.</span>
+        }
+        @if (issueForm.controls.title.errors?.['minlength']) {
+            <span class="error-msg">Title must be at least 5 characters long.</span>
+        }
+         <!-- Async Validator Error -->
+        @if (issueForm.controls.title.errors?.['titleTaken']) {
+            <span class="error-msg">This title is already taken in the database!</span>
+        }
+        <!-- Async PENDING State -->
+        @if (issueForm.controls.title.pending) {
+            <span style="color: blue;">Checking database...</span>
+        }
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea formControlName="description" rows="4"></textarea>
+    </div>
+
+    <div class="form-group">
+      <div class="tags-header">
+        <label>Tags</label>
+        <button type="button" class="add-tag-btn" (click)="addTag()">+ Add Tag</button>
+      </div>
+
+      <!-- Bind the FormArray -->
+      <div formArrayName="tags" class="tags-list">
+        
+        <!-- Iterate over the controls array using @for -->
+        @for (tagCtrl of tags.controls; track $index) {
+          <div class="tag-item">
+            <!-- Use the $index as the formControlName! -->
+            <input type="text" [formControlName]="$index" placeholder="E.g., frontend" />
+            <button type="button" class="remove-tag-btn" (click)="removeTag($index)" title="Remove Tag">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- Cross-Field Error Rendering -->
+    @if (issueForm.errors?.['titleMatchesDescription']) {
+      <div class="error-msg">
+        <strong>Error:</strong> The description cannot be identical to the title!
+      </div>
+    }
+
+    <!-- Disable the submit button natively if the form is completely invalid! -->
+    <button type="submit" class="submit-btn" [disabled]="issueForm.invalid">
+      Create Issue
+    </button>
+  </form>
+</div>

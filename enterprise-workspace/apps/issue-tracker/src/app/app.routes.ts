@@ -15,6 +15,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('@enterprise-workspace/feature-manage').then(m => m.FeatureManage)
   },
   {
+     path: 'issues/create',
+     canActivate: [authGuard, roleGuard(['Admin', 'Manager', 'Developer'])], // <-- Only Admins, Managers, and Developers can access!
+     loadComponent: () => import('@enterprise-workspace/feature-issue-create').then(m => m.FeatureIssueCreate)
+  },
+  {
     path: 'issues/:id', // <-- Notice the dynamic :id parameter!
     canActivate: [authGuard], // <-- Protect this route too!
     loadComponent: () => import('@enterprise-workspace/feature-issue-detail').then(m => m.FeatureIssueDetail)
