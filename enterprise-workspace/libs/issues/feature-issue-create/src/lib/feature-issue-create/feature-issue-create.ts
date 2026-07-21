@@ -5,8 +5,7 @@ import { IssueStore, uniqueTitleAsyncValidator, titleCannotMatchDescriptionValid
 import { NgClass } from '@angular/common'; // We will use this for CSS later
 import { AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { timer, map, Observable } from 'rxjs';
-
-
+import { ToastService } from '@enterprise-workspace/ui-toast';
 
 @Component({
   selector: 'lib-feature-issue-create',
@@ -20,6 +19,8 @@ export class FeatureIssueCreate {
 
   // Inject the NonNullableFormBuilder!
   private fb = inject(NonNullableFormBuilder);
+
+  toastService = inject(ToastService);
 
   // 1. Build the form using fb.group!
   // The first item in the array is the initial value, the second is synchronous validators, the third is async validators!
@@ -51,6 +52,9 @@ export class FeatureIssueCreate {
       
       // Save it using our global store!
       this.issueStore.addIssue(title, description);
+
+      // Programmatically spawn the toast!
+      this.toastService.show('Issue successfully created!');
       
       // Navigate back to the Issue Manager!
       this.router.navigate(['/issues']); 

@@ -12,6 +12,9 @@
     } @else {
       <span class="badge closed">Resolved</span>
     }
+    <small class="text-muted" style="margin-left: 10px; color: #64748b;">
+      Created {{ issue.createdAt | timeAgo }}
+    </small>
   </div>
 
   <!-- Inside the footer slot -->

@@ -5,7 +5,7 @@ import { IssueStore, uniqueTitleAsyncValidator, titleCannotMatchDescriptionValid
 import { NgClass } from '@angular/common';
 import { AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { timer, map, Observable } from 'rxjs';
-
+import { ToastService } from '@enterprise-workspace/ui-toast';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class FeatureIssueEdit implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
+  toastService = inject(ToastService);
 
   public issueId!: number;
 
@@ -68,6 +69,9 @@ export class FeatureIssueEdit implements OnInit {
       const { title, description, tags } = this.issueForm.getRawValue();
       
       this.issueStore.updateIssue(this.issueId, { title, description, tags });
+
+      // Programmatically spawn the toast!
+      this.toastService.show('Issue successfully updated!');
       
       this.router.navigate(['/issues']); 
     }

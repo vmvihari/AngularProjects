@@ -13,6 +13,7 @@ export interface Issue {
   status: string;
   description?: string;
   tags?: string[];
+  createdAt: string; // ISO 8601 string from the API
 }
 
 interface IssueState {
@@ -52,7 +53,7 @@ export const IssueStore = signalStore(
       // 1. Optimistic UI Update
       const tempId = Date.now(); 
       patchState(store, (state) => ({
-        issues: [...state.issues, { id: tempId, title, description, status: 'Open', tags }]
+        issues: [...state.issues, { id: tempId, title, description, status: 'Open', tags, createdAt: new Date().toISOString() }]
       }));
 
       // 2. Background Sync
