@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Fetch all history for all tags and branches
+          # Required by Nx affected to compare commits
+          fetch-depth: 0
+
+      # In an enterprise repository, using a specific node version is required
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - run: npm ci
+
+      # Prettier formatting check
+      - run: npx nx format:check
+
+      # Nx Affected Commands
+      # By default, nx affected uses origin/main as the base in CI
+      - run: npx nx affected -t lint --parallel=3
+      - run: npx nx affected -t test --parallel=3 --configuration=ci
+      - run: npx nx affected -t build --parallel=3

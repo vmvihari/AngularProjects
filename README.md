@@ -131,7 +131,9 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 3. [Code Quality & Linting](docs/module-6-qa-deployment/phase-17-e2e-testing/03-code-quality-linting.md)
 
 #### Phase 18: CI/CD & Monorepo Architecture (Nx)
-- *(Content coming soon...)*
+1. [Nx Monorepo Architecture](docs/module-6-qa-deployment/phase-18-ci-cd-nx/01-nx-monorepo-architecture.md)
+2. [Nx Affected Commands](docs/module-6-qa-deployment/phase-18-ci-cd-nx/02-affected-commands.md)
+3. [GitHub Actions CI/CD](docs/module-6-qa-deployment/phase-18-ci-cd-nx/03-github-actions-ci.md)
 
 ---
 
