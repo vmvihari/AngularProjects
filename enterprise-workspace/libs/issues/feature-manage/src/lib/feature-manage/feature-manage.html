@@ -16,17 +16,19 @@
     </lib-ui-issue-filters>
   </div>
 
-  @if (issueStore.isLoading()) {
-    <div style="padding: 40px; text-align: center; color: #64748b;">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-        <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-      </svg>
-      <p>Fetching issues from server...</p>
-    </div>
-  } @else {
+  <!-- If isLoading() is true, this renders 3 skeleton boxes. 
+       If false, it renders the real issue cards inside! -->
+  <ng-container *appSkeletonLoader="issueStore.isLoading()">
+
     <ul class="issue-list">
       @for (issue of filteredIssues(); track issue.id) {
-        <lib-ui-issue-card [issue]="issue" (resolve)="resolveIssue($event)" (view)="viewIssue(issue.id)" (edit)="editIssue(issue.id)">
+        <lib-ui-issue-card 
+          [issue]="issue" 
+          [appStatusHighlight]="issue.status" 
+          appTooltip="Click View for details."
+          (resolve)="resolveIssue($event)" 
+          (view)="viewIssue(issue.id)" 
+          (edit)="editIssue(issue.id)">
         </lib-ui-issue-card>
       } @empty {
         <div class="empty-state">
@@ -38,5 +40,6 @@
         </div>
       }
     </ul>
-  }
+
+  </ng-container>
 </div>

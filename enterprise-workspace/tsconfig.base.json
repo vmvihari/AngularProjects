@@ -51,7 +51,15 @@
       ],
       "@enterprise-workspace/feature-issue-edit": [
         "./libs/issues/feature-issue-edit/src/index.ts"
-      ]
+      ],
+      "@enterprise-workspace/ui-directives": [
+        "./libs/shared/ui-directives/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-skeleton": [
+        "./libs/shared/ui-skeleton/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-pipes": ["./libs/shared/ui-pipes/src/index.ts"],
+      "@enterprise-workspace/ui-toast": ["./libs/shared/ui-toast/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

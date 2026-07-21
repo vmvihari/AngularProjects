@@ -36,13 +36,15 @@ app.MapHub<IssuesHub>("/issues-hub"); // <-- Map the SignalR Hub
 // In-Memory Database matching the Angular IssueStore exactly!
 var issues = new List<Issue>
 {
-    new Issue(1, "Fix login validation", "Open"),
-    new Issue(2, "Update routing module", "Closed"),
-    new Issue(3, "Build issue list component", "Open")
+    new Issue(1, "Fix login validation", "Open", "2026-07-20T10:00:00Z"),
+    new Issue(2, "Update routing module", "Closed", "2026-07-19T14:30:00Z"),
+    new Issue(3, "Build issue list component", "Open", "2026-07-15T09:15:00Z")
 };
 
-app.MapGet("/api/issues", () =>
+app.MapGet("/api/issues", async () =>
 {
+    // <-- Artificial delay to show off the skeleton loader!
+    await Task.Delay(1500);
     return Results.Ok(issues);
 })
 .WithName("GetIssues");
@@ -72,7 +74,7 @@ app.MapPut("/api/issues/{id}", async (int id, IssueUpdateDto update, IHubContext
 app.Run();
 
 // Models
-public record Issue(int Id, string Title, string Status);
+public record Issue(int Id, string Title, string Status, string CreatedAt);
 public record IssueUpdateDto(string? Title, string? Status);
 
 // SignalR Hub
