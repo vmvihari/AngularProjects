@@ -93,7 +93,14 @@ export const IssueStore = signalStore(
         })
       )
     )
-  }))
+  })),
+  withHooks({
+    onInit(store) {
+      // Auto-fetch the issues when the Store is instantiated!
+      // Because this store is providedIn: 'root', this fires immediately on app boot.
+      store.loadIssues();
+    }
+  })
 );
 ```
 
@@ -105,19 +112,8 @@ Open `libs/issues/feature-manage/src/lib/feature-manage/feature-manage.ts`:
 2. Change `public issueService = inject(IssueService);` to `public issueStore = inject(IssueStore);`.
 3. In `ngOnInit()`, tell the store to load the data!
    ```typescript
-   import { Component, inject, OnInit } from '@angular/core';
-   // ...
-   export class FeatureManage implements OnInit {
+   export class FeatureManage {
      public issueStore = inject(IssueStore);
-     
-     ngOnInit() {
-       // Only trigger the load if we don't have data yet!
-       // This prevents wiping out our state when navigating back to the screen,
-       // while keeping loadIssues() reusable for a future "Refresh" button!
-       if (this.issueStore.issues().length === 0) {
-         this.issueStore.loadIssues();
-       }
-     }
      
      resolveIssue(issueId: number) {
        this.issueStore.resolveIssue(issueId);

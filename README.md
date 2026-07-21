@@ -8,8 +8,8 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 ## Table of Contents
 
 ### Projects
-- [Project Source Code: Enterprise Issue Tracker (Angular)](enterprise-workspace/apps/issue-tracker/)
-- [Project Source Code: Enterprise Issue Tracker (ASP.NET Core API) - Coming Soon](#)
+- [Project Source Code: Enterprise Issue Tracker (Angular)](enterprise-workspace/apps/issue-tracker/README.md)
+- [Project Source Code: Enterprise Issue Tracker (ASP.NET Core API)](enterprise-workspace/apps/IssueTracker.Api/README.md)
 
 ### Module 1: The Angular Foundation
 #### Phase 1: Angular Fundamentals
@@ -64,7 +64,11 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 5. [Mutations and Reactivity](docs/module-3-data-forms-security/phase-7-http-and-data-fetching/05-mutations-and-reactivity.md)
 
 #### Phase 8: Authentication, Authorization & Security
-- *(Content coming soon...)*
+1. [Authentication Service](docs/module-3-data-forms-security/phase-8-auth-and-security/01-authentication-service.md)
+2. [The Login Workflow](docs/module-3-data-forms-security/phase-8-auth-and-security/02-login-workflow.md)
+3. [Route Guards & Roles](docs/module-3-data-forms-security/phase-8-auth-and-security/03-route-guards.md)
+4. [Dynamic Interceptors](docs/module-3-data-forms-security/phase-8-auth-and-security/04-dynamic-interceptors.md)
+5. [Role-Based Authorization](docs/module-3-data-forms-security/phase-8-auth-and-security/05-role-based-authorization.md)
 
 #### Phase 9: Forms & Validation
 1. [Reactive Forms](docs/module-3-data-forms-security/phase-9-forms-and-validation/01-reactive-forms.md)
@@ -73,9 +77,14 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [Dynamic Forms (FormArray)](docs/module-3-data-forms-security/phase-9-forms-and-validation/04-dynamic-forms-formarray.md)
 5. [FormBuilder](docs/module-3-data-forms-security/phase-9-forms-and-validation/05-formbuilder.md)
 
+#### Assignment
+- [Module 3 Assignment: Edit Issue Feature](docs/module-3-data-forms-security/module-3-assignment.md)
+
 ### Module 4: Real-Time & Advanced UI
 #### Phase 10: Real-Time Communication (SignalR)
-- *(Content coming soon...)*
+1. [The SignalR Client](docs/module-4-real-time-ui/phase-10-real-time-communication/01-signalr-client.md)
+2. [Connection Management](docs/module-4-real-time-ui/phase-10-real-time-communication/02-connection-management.md)
+3. [Syncing State](docs/module-4-real-time-ui/phase-10-real-time-communication/03-sync-state.md)
 
 #### Phase 11: Advanced UI & Custom Directives
 1. [Custom Attribute Directives](docs/module-4-real-time-ui/phase-11-advanced-ui/01-attribute-directives.md)
@@ -85,7 +94,10 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 5. [Accessibility (a11y)](docs/module-4-real-time-ui/phase-11-advanced-ui/05-accessibility-and-a11y.md)
 
 #### Phase 12: Styling Architecture & UI Libraries
-- *(Content coming soon...)*
+1. [UI Libraries in Nx](docs/module-4-real-time-ui/phase-12-styling-and-ui-libraries/01-ui-libraries-in-nx.md)
+
+#### Assignment
+- [Module 4 Assignment: Real-Time Alerts](docs/module-4-real-time-ui/module-4-assignment.md)
 
 ### Module 5: Enterprise Architecture & Observability
 #### Phase 13: Performance, SSR & Architecture

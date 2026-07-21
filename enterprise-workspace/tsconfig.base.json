@@ -39,6 +39,29 @@
       ],
       "@enterprise-workspace/feature-settings": [
         "./libs/issues/feature-settings/src/index.ts"
+      ],
+      "@enterprise-workspace/shared-util-auth": [
+        "./libs/shared/util-auth/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-auth": [
+        "./libs/shared/feature-auth/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-issue-create": [
+        "./libs/issues/feature-issue-create/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-issue-edit": [
+        "./libs/issues/feature-issue-edit/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-directives": [
+        "./libs/shared/ui-directives/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-skeleton": [
+        "./libs/shared/ui-skeleton/src/index.ts"
+      ],
+      "@enterprise-workspace/ui-pipes": ["./libs/shared/ui-pipes/src/index.ts"],
+      "@enterprise-workspace/ui-toast": ["./libs/shared/ui-toast/src/index.ts"],
+      "@enterprise-workspace/ui-button": [
+        "./libs/shared/ui-button/src/index.ts"
       ]
     }
   },

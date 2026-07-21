@@ -1,8 +1,10 @@
 import { Component, Output, EventEmitter, input } from '@angular/core';
 
+import { UiButton } from '@enterprise-workspace/ui-button';
+
 @Component({
   selector: 'lib-ui-issue-filters',
-  imports: [],
+  imports: [UiButton],
   templateUrl: './ui-issue-filters.html',
   styleUrl: './ui-issue-filters.css',
 })

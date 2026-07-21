@@ -1,4 +1,4 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -6,10 +6,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { UiIssueCard } from '@enterprise-workspace/ui-issue-card';
 import { UiIssueFilters } from '@enterprise-workspace/ui-issue-filters';
 import { IssueStore } from '@enterprise-workspace/data-access';
+import { SkeletonLoaderDirective } from '@enterprise-workspace/ui-skeleton';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ToastService } from '@enterprise-workspace/ui-toast';
 
 @Component({
   selector: 'lib-feature-manage',
-  imports: [UiIssueCard, UiIssueFilters, ReactiveFormsModule],
+  imports: [UiIssueCard, UiIssueFilters, ReactiveFormsModule, SkeletonLoaderDirective],
   templateUrl: './feature-manage.html',
   styleUrl: './feature-manage.css',
 })
@@ -18,13 +21,27 @@ export class FeatureManage {
   // Inject the service using modern Angular DI!
   public issueStore = inject(IssueStore);
   private router = inject(Router);
+  private announcer = inject(LiveAnnouncer);
+  private toastService = inject(ToastService);
 
-  ngOnInit() {
-    // Only load if we don't have data yet. 
-    // This allows loadIssues() to still be used for a 'Refresh' button later!
-    if (this.issueStore.issues().length === 0) {
-      this.issueStore.loadIssues();
-    }
+  constructor() {
+    effect(() => {
+      const isLoading = this.issueStore.isLoading();
+      const issues = this.issueStore.issues();
+
+      if (!isLoading && issues && issues.length > 0) {
+        // This will silently read "Successfully loaded X issues" to a screen reader!
+        // 'polite' means it waits for the user to finish their current screen reader sentence.
+        this.announcer.announce(`Successfully loaded ${issues.length} issues`, 'polite');
+      }
+    });
+
+    effect(() => {
+      const deletedId = this.issueStore.lastDeletedIssueId();
+      if (deletedId !== null) {
+        this.toastService.show(`An issue (#${deletedId}) was just deleted by another user!`);
+      }
+    });
   }
 
   // 1. Create a FormControl for our search input
@@ -57,6 +74,10 @@ export class FeatureManage {
     this.issueStore.resolveIssue(issueId);
   }
 
+  deleteIssue(issueId: number) {
+    this.issueStore.deleteIssue(issueId);
+  }
+
   filterIssues(status: string) {
     // Using type assertion to match our strict types
     this.issueStore.updateFilter(status as any);
@@ -64,5 +85,9 @@ export class FeatureManage {
 
   viewIssue(issueId: number) {
     this.router.navigate(['/issues', issueId]);
+  }
+
+  editIssue(issueId: number) {
+    this.router.navigate(['/issues', issueId, 'edit']);
   }
 }

@@ -1,8 +1,11 @@
 import { Route } from '@angular/router';
-import { authGuard } from '@enterprise-workspace/data-access';
+import { authGuard, roleGuard } from './core/guards/auth.guard';
 
 export const appRoutes: Route[] = [
   {
+    path: 'login',
+    loadComponent: () => import('@enterprise-workspace/feature-auth').then(m => m.FeatureAuthComponent)
+  },{
     path: 'dashboard',
     loadComponent: () => import('@enterprise-workspace/feature-dashboard').then(m => m.FeatureDashboard)
   },
@@ -12,13 +15,23 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('@enterprise-workspace/feature-manage').then(m => m.FeatureManage)
   },
   {
+     path: 'issues/create',
+     canActivate: [authGuard, roleGuard(['Admin', 'Manager', 'Developer'])], // <-- Only Admins, Managers, and Developers can access!
+     loadComponent: () => import('@enterprise-workspace/feature-issue-create').then(m => m.FeatureIssueCreate)
+  },
+  {
     path: 'issues/:id', // <-- Notice the dynamic :id parameter!
     canActivate: [authGuard], // <-- Protect this route too!
     loadComponent: () => import('@enterprise-workspace/feature-issue-detail').then(m => m.FeatureIssueDetail)
   },
   {
+    path: 'issues/:id/edit',
+    canActivate: [authGuard, roleGuard(['Admin', 'Manager'])],
+    loadComponent: () => import('@enterprise-workspace/feature-issue-edit').then(m => m.FeatureIssueEdit)
+  },
+  {
     path: 'settings',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard(['Admin', 'Manager'])], // <-- Only Admins and Managers can access!
     loadComponent: () => import('@enterprise-workspace/feature-settings').then(m => m.FeatureSettings)
   },
   {

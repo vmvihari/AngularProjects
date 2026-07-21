@@ -46,6 +46,11 @@ npx nx g @nx/angular:library --directory=libs/issues/feature-manage
 *   `--directory=libs/issues/feature-manage`: In modern Nx, the folder path determines the library's location and derived name. This places the library under the `issues` domain folder.
 *   *Note: In modern Nx versions (v17+), standalone components are the default so we don't need a `--standalone` flag!*
 
-### Step 3: Explore the Library
-Take a look at your folder structure now. You should see `libs/issues/feature-manage`.
-Inside, look for the `src/index.ts` file. This is the **Public API** of the library. Only the files exported here are accessible to the rest of the application!
+### Step 3: Explore the Library's Strict Encapsulation
+Take a look at your folder structure now. You should see `libs/issues/feature-manage`. Inside `src`, you will find two very deliberate things:
+
+1. **`lib/`**: This folder contains all the actual implementation details (your components, services, etc). Everything in here is considered "internal".
+2. **`index.ts`**: Sitting directly in `src/`, this file acts as the **Public API** (the "barrel file") for the library.
+
+**Why is it structured this way? Strict Encapsulation.**
+If you create a component inside `src/lib/` but you **do not** export it in `src/index.ts`, it is physically impossible for any other application or library in your workspace to import it! This prevents the "spaghetti code" problem that plagues massive enterprise codebases. It forces developers to explicitly define what parts of a library are public (exported in `index.ts`) and what parts are private internal implementation details (kept safely inside `src/lib/`).

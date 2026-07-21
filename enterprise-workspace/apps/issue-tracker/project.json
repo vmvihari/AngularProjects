@@ -6,6 +6,12 @@
   "sourceRoot": "apps/issue-tracker/src",
   "tags": [],
   "targets": {
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "issue-tracker:build"
+      }
+    },
     "build": {
       "executor": "@angular/build:application",
       "outputs": [
@@ -29,6 +35,9 @@
         "ssr": {
           "entry": "apps/issue-tracker/src/server.ts"
         },
+        "polyfills": [
+          "@angular/localize/init"
+        ],
         "outputMode": "server"
       },
       "configurations": {

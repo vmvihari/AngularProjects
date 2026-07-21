@@ -1,6 +1,6 @@
 <div class="feature-container">
   <div class="header-section">
-    <h2>Manage Issues</h2>
+    <h2 i18n>Manage Issues</h2>
   </div>
 
   <div class="filter-controls">
@@ -16,27 +16,39 @@
     </lib-ui-issue-filters>
   </div>
 
-  @if (issueStore.isLoading()) {
-    <div style="padding: 40px; text-align: center; color: #64748b;">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-        <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-      </svg>
-      <p>Fetching issues from server...</p>
-    </div>
-  } @else {
+  <!-- If isLoading() is true, this renders 3 skeleton boxes. 
+       If false, it renders the real issue cards inside! -->
+  <ng-container *appSkeletonLoader="issueStore.isLoading()">
+
     <ul class="issue-list">
       @for (issue of filteredIssues(); track issue.id) {
-        <lib-ui-issue-card [issue]="issue" (resolve)="resolveIssue($event)" (view)="viewIssue(issue.id)">
-        </lib-ui-issue-card>
+        @defer (on viewport) {
+          <lib-ui-issue-card 
+            [issue]="issue" 
+            [appStatusHighlight]="issue.status" 
+            appTooltip="Click View for details."
+            (resolve)="resolveIssue($event)" 
+            (view)="viewIssue(issue.id)" 
+            (edit)="editIssue(issue.id)"
+            (delete)="deleteIssue(issue.id)">
+          </lib-ui-issue-card>
+        } @placeholder {
+          <!-- This renders synchronously while we wait for it to enter the viewport -->
+          <div style="height: 160px; background: rgba(51, 65, 85, 0.4); margin-bottom: 1rem; border-radius: 8px;"></div>
+        } @loading {
+          <!-- This renders while the JavaScript chunk is actively downloading over the network -->
+          <div style="height: 160px; background: rgba(51, 65, 85, 0.8); margin-bottom: 1rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">Loading Card...</div>
+        }
       } @empty {
         <div class="empty-state">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M8 12h8"></path>
           </svg>
-          <p>No issues found. Everything is great!</p>
+          <p i18n="empty state|The message shown when there are no issues@@noIssuesMessage">No issues found. Everything is great!</p>
         </div>
       }
     </ul>
-  }
+
+  </ng-container>
 </div>

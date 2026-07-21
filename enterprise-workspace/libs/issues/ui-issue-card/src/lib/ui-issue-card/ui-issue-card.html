@@ -12,16 +12,23 @@
     } @else {
       <span class="badge closed">Resolved</span>
     }
+    <small class="text-muted" style="margin-left: 10px; color: #64748b;">
+      Created {{ issue.createdAt | timeAgo }}
+    </small>
   </div>
 
   <!-- Inside the footer slot -->
   <div card-footer style="display: flex; gap: 8px;">
-    <button class="view-btn" (click)="onView()">View Details</button>
+    <lib-ui-button customClass="view-btn" (clicked)="onView()">View Details</lib-ui-button>
     
-    @if (issue.status === 'Open') {
-      <button class="resolve-btn" (click)="onResolve()">
-        Mark Resolved
-      </button>
+    @if (authStore.hasAnyRole(['Admin', 'Manager'])) {
+      <lib-ui-button customClass="view-btn" (clicked)="onEdit()">Edit</lib-ui-button>
+      @if (issue.status === 'Open') {
+        <lib-ui-button color="warn" (clicked)="onDelete()">Delete</lib-ui-button>
+        <lib-ui-button customClass="resolve-btn" color="accent" (clicked)="onResolve()">
+          Mark Resolved
+        </lib-ui-button>
+      }
     }
   </div>
 </lib-ui-card>
