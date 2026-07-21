@@ -58,6 +58,15 @@ export const IssueStore = signalStore(
       // 2. Background Sync
       http.post(`${environment.apiUrl}/issues`, { title, description, status: 'Open', tags }).subscribe();
     },
+    updateIssue(id: number, updatedFields: Partial<Issue>) {
+      patchState(store, (state) => ({
+        issues: state.issues.map(issue => 
+          issue.id === id ? { ...issue, ...updatedFields } : issue
+        )
+      }));
+
+      http.put(`${environment.apiUrl}/issues/${id}`, updatedFields).subscribe();
+    },
     resolveIssue(id: number) {
       patchState(store, (state) => ({
         issues: state.issues.map(issue => 

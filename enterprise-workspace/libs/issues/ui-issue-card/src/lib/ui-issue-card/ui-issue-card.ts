@@ -15,6 +15,7 @@ export class UiIssueCard {
   @Input({ required: true }) issue!: any;
   @Output() resolve = new EventEmitter<number>();
   @Output() view = new EventEmitter<void>();
+  @Output() edit = new EventEmitter<void>();
 
   onResolve() {
     this.resolve.emit(this.issue.id);
@@ -22,5 +23,9 @@ export class UiIssueCard {
 
   onView() {
     this.view.emit();
+  }
+
+  onEdit() {
+    this.edit.emit();
   }
 }

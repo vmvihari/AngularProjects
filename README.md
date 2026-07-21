@@ -77,6 +77,9 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [Dynamic Forms (FormArray)](docs/module-3-data-forms-security/phase-9-forms-and-validation/04-dynamic-forms-formarray.md)
 5. [FormBuilder](docs/module-3-data-forms-security/phase-9-forms-and-validation/05-formbuilder.md)
 
+#### Assignment
+- [Module 3 Assignment: Edit Issue Feature](docs/module-3-data-forms-security/module-3-assignment.md)
+
 ### Module 4: Real-Time & Advanced UI
 #### Phase 10: Real-Time Communication (SignalR)
 - *(Content coming soon...)*

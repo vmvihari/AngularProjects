@@ -57,4 +57,8 @@ export class FeatureManage {
   viewIssue(issueId: number) {
     this.router.navigate(['/issues', issueId]);
   }
+
+  editIssue(issueId: number) {
+    this.router.navigate(['/issues', issueId, 'edit']);
+  }
 }

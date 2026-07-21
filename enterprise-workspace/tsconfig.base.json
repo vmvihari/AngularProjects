@@ -48,6 +48,9 @@
       ],
       "@enterprise-workspace/feature-issue-create": [
         "./libs/issues/feature-issue-create/src/index.ts"
+      ],
+      "@enterprise-workspace/feature-issue-edit": [
+        "./libs/issues/feature-issue-edit/src/index.ts"
       ]
     }
   },

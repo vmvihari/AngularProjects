@@ -20,6 +20,7 @@
     
     <!-- Only render this button if the user is an Admin OR a Manager! -->
     @if (authStore.hasAnyRole(['Admin', 'Manager'])) {
+      <button class="view-btn" (click)="onEdit()">Edit</button>
       @if (issue.status === 'Open') {
         <button class="resolve-btn" (click)="onResolve()">
           Mark Resolved

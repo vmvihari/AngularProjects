@@ -25,6 +25,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('@enterprise-workspace/feature-issue-detail').then(m => m.FeatureIssueDetail)
   },
   {
+    path: 'issues/:id/edit',
+    canActivate: [authGuard, roleGuard(['Admin', 'Manager'])],
+    loadComponent: () => import('@enterprise-workspace/feature-issue-edit').then(m => m.FeatureIssueEdit)
+  },
+  {
     path: 'settings',
     canActivate: [authGuard, roleGuard(['Admin', 'Manager'])], // <-- Only Admins and Managers can access!
     loadComponent: () => import('@enterprise-workspace/feature-settings').then(m => m.FeatureSettings)
