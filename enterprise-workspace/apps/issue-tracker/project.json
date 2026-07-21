@@ -29,6 +29,7 @@
         "ssr": {
           "entry": "apps/issue-tracker/src/server.ts"
         },
+        "polyfills": [],
         "outputMode": "server"
       },
       "configurations": {
