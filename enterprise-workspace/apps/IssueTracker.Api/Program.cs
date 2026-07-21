@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.SignalR;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,9 +13,12 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:4200")
                   .AllowAnyHeader()
-                  .AllowAnyMethod();
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // <-- Required for SignalR WebSockets
         });
 });
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -25,6 +30,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAngularApp"); // Enable the CORS policy!
+
+app.MapHub<IssuesHub>("/issues-hub"); // <-- Map the SignalR Hub
 
 // In-Memory Database matching the Angular IssueStore exactly!
 var issues = new List<Issue>
@@ -40,7 +47,7 @@ app.MapGet("/api/issues", () =>
 })
 .WithName("GetIssues");
 
-app.MapPut("/api/issues/{id}", (int id, IssueUpdateDto update) =>
+app.MapPut("/api/issues/{id}", async (int id, IssueUpdateDto update, IHubContext<IssuesHub> hubContext) =>
 {
     var issueIndex = issues.FindIndex(i => i.Id == id);
     if (issueIndex == -1) return Results.NotFound();
@@ -54,6 +61,10 @@ app.MapPut("/api/issues/{id}", (int id, IssueUpdateDto update) =>
     };
     
     issues[issueIndex] = updatedIssue;
+    
+    // Broadcast the updated issue to all connected SignalR clients!
+    await hubContext.Clients.All.SendAsync("IssueUpdated", updatedIssue);
+    
     return Results.Ok(updatedIssue);
 })
 .WithName("UpdateIssue");
@@ -63,3 +74,6 @@ app.Run();
 // Models
 public record Issue(int Id, string Title, string Status);
 public record IssueUpdateDto(string? Title, string? Status);
+
+// SignalR Hub
+public class IssuesHub : Hub { }
