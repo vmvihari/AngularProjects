@@ -17,6 +17,15 @@ npx nx g @nx/angular:setup-i18n --project=issue-tracker
 ```
 *(Press Enter to accept any defaults).*
 
+> [!WARNING]
+> **Manual Installation Fallback**
+> If the generator fails (e.g. due to Node.js version mismatches), you can install the package manually:
+> ```bash
+> npm install @angular/localize@22.0.6 --legacy-peer-deps
+> ```
+> However, because the CLI didn't run, you must manually add the polyfill to prevent `$localize is not defined` runtime errors!
+> Open `apps/issue-tracker/project.json`, find the `build.options.polyfills` array, and add `"@angular/localize/init"`.
+
 ## 2. Marking Text for Translation
 
 Once installed, we don't use complicated services or pipes to translate our UI. We simply add the `i18n` attribute directly to our HTML tags!

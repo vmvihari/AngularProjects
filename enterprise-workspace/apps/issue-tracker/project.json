@@ -35,7 +35,9 @@
         "ssr": {
           "entry": "apps/issue-tracker/src/server.ts"
         },
-        "polyfills": [],
+        "polyfills": [
+          "@angular/localize/init"
+        ],
         "outputMode": "server"
       },
       "configurations": {
