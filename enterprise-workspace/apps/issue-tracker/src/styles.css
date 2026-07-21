@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 body.dark-theme {
   background-color: #0f172a;
   color: #f8fafc;
@@ -126,4 +128,10 @@ body.dark-theme .view-btn,
 body.dark-theme .resolve-btn {
   background: #0f172a !important;
   border-color: #334155 !important;
+}
+
+/* Angular Material Dark Theme Overrides for Basic Buttons */
+body.dark-theme .mat-mdc-unelevated-button:not(.mat-primary):not(.mat-accent):not(.mat-warn) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
 }

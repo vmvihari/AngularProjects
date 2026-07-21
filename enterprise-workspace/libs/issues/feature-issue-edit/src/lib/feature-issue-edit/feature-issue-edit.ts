@@ -6,11 +6,11 @@ import { NgClass } from '@angular/common';
 import { AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { timer, map, Observable } from 'rxjs';
 import { ToastService } from '@enterprise-workspace/ui-toast';
-
+import { UiButton } from '@enterprise-workspace/ui-button';
 
 @Component({
   selector: 'lib-feature-issue-edit',
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule, NgClass, UiButton],
   templateUrl: './feature-issue-edit.html',
   styleUrl: './feature-issue-edit.css',
 })

@@ -94,7 +94,10 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 5. [Accessibility (a11y)](docs/module-4-real-time-ui/phase-11-advanced-ui/05-accessibility-and-a11y.md)
 
 #### Phase 12: Styling Architecture & UI Libraries
-- *(Content coming soon...)*
+1. [UI Libraries in Nx](docs/module-4-real-time-ui/phase-12-styling-and-ui-libraries/01-ui-libraries-in-nx.md)
+
+#### Assignment
+- [Module 4 Assignment: Real-Time Alerts](docs/module-4-real-time-ui/module-4-assignment.md)
 
 ### Module 5: Enterprise Architecture & Observability
 #### Phase 13: Performance, SSR & Architecture

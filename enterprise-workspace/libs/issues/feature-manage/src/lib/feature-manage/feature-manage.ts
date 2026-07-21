@@ -8,6 +8,7 @@ import { UiIssueFilters } from '@enterprise-workspace/ui-issue-filters';
 import { IssueStore } from '@enterprise-workspace/data-access';
 import { SkeletonLoaderDirective } from '@enterprise-workspace/ui-skeleton';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ToastService } from '@enterprise-workspace/ui-toast';
 
 @Component({
   selector: 'lib-feature-manage',
@@ -21,6 +22,7 @@ export class FeatureManage {
   public issueStore = inject(IssueStore);
   private router = inject(Router);
   private announcer = inject(LiveAnnouncer);
+  private toastService = inject(ToastService);
 
   constructor() {
     effect(() => {
@@ -31,6 +33,13 @@ export class FeatureManage {
         // This will silently read "Successfully loaded X issues" to a screen reader!
         // 'polite' means it waits for the user to finish their current screen reader sentence.
         this.announcer.announce(`Successfully loaded ${issues.length} issues`, 'polite');
+      }
+    });
+
+    effect(() => {
+      const deletedId = this.issueStore.lastDeletedIssueId();
+      if (deletedId !== null) {
+        this.toastService.show(`An issue (#${deletedId}) was just deleted by another user!`);
       }
     });
   }
@@ -63,6 +72,10 @@ export class FeatureManage {
 
   resolveIssue(issueId: number) {
     this.issueStore.resolveIssue(issueId);
+  }
+
+  deleteIssue(issueId: number) {
+    this.issueStore.deleteIssue(issueId);
   }
 
   filterIssues(status: string) {

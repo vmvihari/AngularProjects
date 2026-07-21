@@ -20,12 +20,14 @@ interface IssueState {
   issues: Issue[];
   isLoading: boolean;
   filter: 'All' | 'Open' | 'Closed';
+  lastDeletedIssueId: number | null;
 }
 
 const initialState: IssueState = {
   issues: [],
   isLoading: false,
-  filter: 'All'
+  filter: 'All',
+  lastDeletedIssueId: null
 };
 
 // 2. Define the Store!
@@ -91,6 +93,10 @@ export const IssueStore = signalStore(
       // 2. Background Sync
       http.put(`${environment.apiUrl}/issues/${id}`, { title: newTitle }).subscribe();
     },
+    deleteIssue(id: number) {
+      // Background Sync (Optimistic update handled by SignalR broadcast!)
+      http.delete(`${environment.apiUrl}/issues/${id}`).subscribe();
+    },
     // Asynchronous operations using RxJS Interop!
     loadIssues: rxMethod<void>(
       pipe(
@@ -141,7 +147,8 @@ export const IssueStore = signalStore(
           // Listen for deleted issues
           connection.on('IssueDeleted', (deletedId: number) => {
             patchState(store, (state) => ({
-              issues: state.issues.filter(issue => issue.id !== deletedId)
+              issues: state.issues.filter(issue => issue.id !== deletedId),
+              lastDeletedIssueId: deletedId
             }));
           });
         }

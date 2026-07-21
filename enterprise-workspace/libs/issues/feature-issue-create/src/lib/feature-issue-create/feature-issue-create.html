@@ -36,7 +36,7 @@
     <div class="form-group">
       <div class="tags-header">
         <label>Tags</label>
-        <button type="button" class="add-tag-btn" (click)="addTag()">+ Add Tag</button>
+        <lib-ui-button type="button" customClass="add-tag-btn" (clicked)="addTag()">+ Add Tag</lib-ui-button>
       </div>
 
       <!-- Bind the FormArray -->
@@ -47,9 +47,9 @@
           <div class="tag-item">
             <!-- Use the $index as the formControlName! -->
             <input type="text" [formControlName]="$index" placeholder="E.g., frontend" />
-            <button type="button" class="remove-tag-btn" (click)="removeTag($index)" title="Remove Tag">
+            <lib-ui-button type="button" customClass="remove-tag-btn" (clicked)="removeTag($index)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            </button>
+            </lib-ui-button>
           </div>
         }
 
@@ -64,8 +64,8 @@
     }
 
     <!-- Disable the submit button natively if the form is completely invalid! -->
-    <button type="submit" class="submit-btn" [disabled]="issueForm.invalid">
+    <lib-ui-button type="submit" customClass="submit-btn" [disabled]="issueForm.invalid">
       Create Issue
-    </button>
+    </lib-ui-button>
   </form>
 </div>
