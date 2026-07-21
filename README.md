@@ -107,10 +107,14 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [Enterprise Architecture](docs/module-5-enterprise-architecture/phase-13-performance-and-architecture/04-enterprise-architecture.md)
 
 #### Phase 14: Error Handling, Logging & Observability
-- *(Content coming soon...)*
+1. [Global Error Handling](docs/module-5-enterprise-architecture/phase-14-error-handling-and-logging/01-global-error-handling.md)
+2. [API Error Interceptor](docs/module-5-enterprise-architecture/phase-14-error-handling-and-logging/02-api-error-interceptor.md)
 
 #### Phase 15: Internationalization (i18n) & Localization
-- *(Content coming soon...)*
+1. [Angular i18n](docs/module-5-enterprise-architecture/phase-15-internationalization/01-angular-i18n.md)
+
+#### Assignment
+- [Module 5 Assignment: Enterprise Readiness](docs/module-5-enterprise-architecture/module-5-assignment.md)
 
 ### Module 6: Quality Assurance & Deployment
 #### Phase 16: Unit & Integration Testing 🚀
@@ -120,7 +124,6 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 4. [Module 4: Component Harnesses](docs/module-6-qa-deployment/phase-16-unit-and-integration-testing/04-component-harnesses.md)
 5. [Module 5: RouterTestingHarness](docs/module-6-qa-deployment/phase-16-unit-and-integration-testing/05-router-testing-harness.md)
 6. [Module 6: Independent Practice](docs/module-6-qa-deployment/phase-16-unit-and-integration-testing/06-independent-practice.md)
-7. [Module 7: The Future - Migrating to Vitest](docs/module-6-qa-deployment/phase-16-unit-and-integration-testing/07-future-vitest-migration.md)
 
 #### Phase 17: E2E Testing & Code Quality
 - *(Content coming soon...)*

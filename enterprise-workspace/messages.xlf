@@ -18,6 +18,13 @@
         <note priority="1" from="description">The message shown when there are no issues</note>
         <note priority="1" from="meaning">empty state</note>
       </trans-unit>
+      <trans-unit id="6169807947926994256" datatype="html">
+        <source>Account Settings</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">libs/issues/feature-settings/src/lib/feature-settings/feature-settings.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

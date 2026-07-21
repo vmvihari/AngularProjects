@@ -1,8 +1,14 @@
 <div class="settings-container">
-  <h2>Account Settings</h2>
+  <h2 i18n>Account Settings</h2>
   
-  <lib-ui-user-profile [user]="user">
-    <!-- Projecting the Avatar via Content Projection! -->
-    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jane" alt="User Avatar">
-  </lib-ui-user-profile>
+  @defer (on hover) {
+    <lib-ui-user-profile [user]="user">
+      <!-- Projecting the Avatar via Content Projection! -->
+      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jane" alt="User Avatar">
+    </lib-ui-user-profile>
+  } @placeholder {
+    <div class="placeholder-box">Hover this placeholder to load the profile!</div>
+  } @loading {
+    <div class="loading-box">Loading profile...</div>
+  }
 </div>
