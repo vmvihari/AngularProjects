@@ -22,15 +22,23 @@
 
     <ul class="issue-list">
       @for (issue of filteredIssues(); track issue.id) {
-        <lib-ui-issue-card 
-          [issue]="issue" 
-          [appStatusHighlight]="issue.status" 
-          appTooltip="Click View for details."
-          (resolve)="resolveIssue($event)" 
-          (view)="viewIssue(issue.id)" 
-          (edit)="editIssue(issue.id)"
-          (delete)="deleteIssue(issue.id)">
-        </lib-ui-issue-card>
+        @defer (on viewport) {
+          <lib-ui-issue-card 
+            [issue]="issue" 
+            [appStatusHighlight]="issue.status" 
+            appTooltip="Click View for details."
+            (resolve)="resolveIssue($event)" 
+            (view)="viewIssue(issue.id)" 
+            (edit)="editIssue(issue.id)"
+            (delete)="deleteIssue(issue.id)">
+          </lib-ui-issue-card>
+        } @placeholder {
+          <!-- This renders synchronously while we wait for it to enter the viewport -->
+          <div style="height: 160px; background: rgba(51, 65, 85, 0.4); margin-bottom: 1rem; border-radius: 8px;"></div>
+        } @loading {
+          <!-- This renders while the JavaScript chunk is actively downloading over the network -->
+          <div style="height: 160px; background: rgba(51, 65, 85, 0.8); margin-bottom: 1rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">Loading Card...</div>
+        }
       } @empty {
         <div class="empty-state">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
