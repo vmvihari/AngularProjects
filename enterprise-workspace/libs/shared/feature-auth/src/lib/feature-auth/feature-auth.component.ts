@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthStore, Role } from '@enterprise-workspace/shared-util-auth';
+import { UiButton } from '@enterprise-workspace/ui-button';
 
 @Component({
   selector: 'lib-feature-auth',
-  imports: [FormsModule],
+  imports: [FormsModule, UiButton],
   templateUrl: './feature-auth.component.html',
   styleUrl: './feature-auth.component.css',
 })

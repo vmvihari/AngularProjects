@@ -59,7 +59,10 @@
         "./libs/shared/ui-skeleton/src/index.ts"
       ],
       "@enterprise-workspace/ui-pipes": ["./libs/shared/ui-pipes/src/index.ts"],
-      "@enterprise-workspace/ui-toast": ["./libs/shared/ui-toast/src/index.ts"]
+      "@enterprise-workspace/ui-toast": ["./libs/shared/ui-toast/src/index.ts"],
+      "@enterprise-workspace/ui-button": [
+        "./libs/shared/ui-button/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

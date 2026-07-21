@@ -1,0 +1,10 @@
+<!-- We wrap the material button -->
+<button 
+  mat-flat-button 
+  [color]="color()" 
+  [type]="type()" 
+  [disabled]="disabled()" 
+  [class]="customClass()"
+  (click)="clicked.emit()">
+  <ng-content></ng-content>
+</button>

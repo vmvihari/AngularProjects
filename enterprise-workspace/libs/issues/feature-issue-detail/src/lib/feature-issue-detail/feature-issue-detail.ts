@@ -2,10 +2,11 @@ import { Component, input, inject, computed, linkedSignal, signal } from '@angul
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IssueStore } from '@enterprise-workspace/data-access';
+import { UiButton } from '@enterprise-workspace/ui-button';
 
 @Component({
   selector: 'lib-feature-issue-detail',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, UiButton],
   templateUrl: './feature-issue-detail.html',
   styleUrl: './feature-issue-detail.css',
 })

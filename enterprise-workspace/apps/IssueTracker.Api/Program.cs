@@ -71,6 +71,20 @@ app.MapPut("/api/issues/{id}", async (int id, IssueUpdateDto update, IHubContext
 })
 .WithName("UpdateIssue");
 
+app.MapDelete("/api/issues/{id}", async (int id, IHubContext<IssuesHub> hubContext) =>
+{
+    var issueIndex = issues.FindIndex(i => i.Id == id);
+    if (issueIndex == -1) return Results.NotFound();
+    
+    issues.RemoveAt(issueIndex);
+    
+    // Broadcast the deleted issue ID to all connected SignalR clients!
+    await hubContext.Clients.All.SendAsync("IssueDeleted", id);
+    
+    return Results.NoContent();
+})
+.WithName("DeleteIssue");
+
 app.Run();
 
 // Models

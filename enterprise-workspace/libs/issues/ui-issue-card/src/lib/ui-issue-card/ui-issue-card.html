@@ -19,15 +19,15 @@
 
   <!-- Inside the footer slot -->
   <div card-footer style="display: flex; gap: 8px;">
-    <button class="view-btn" (click)="onView()">View Details</button>
+    <lib-ui-button customClass="view-btn" (clicked)="onView()">View Details</lib-ui-button>
     
-    <!-- Only render this button if the user is an Admin OR a Manager! -->
     @if (authStore.hasAnyRole(['Admin', 'Manager'])) {
-      <button class="view-btn" (click)="onEdit()">Edit</button>
+      <lib-ui-button customClass="view-btn" (clicked)="onEdit()">Edit</lib-ui-button>
       @if (issue.status === 'Open') {
-        <button class="resolve-btn" (click)="onResolve()">
+        <lib-ui-button color="warn" (clicked)="onDelete()">Delete</lib-ui-button>
+        <lib-ui-button customClass="resolve-btn" color="accent" (clicked)="onResolve()">
           Mark Resolved
-        </button>
+        </lib-ui-button>
       }
     }
   </div>
