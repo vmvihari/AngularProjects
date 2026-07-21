@@ -1,8 +1,14 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from './page-objects/login.po';
 
-test('has title', async ({ page }) => {
-  await page.goto('/');
+test('should login successfully as Admin and navigate to issues', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  
+  await loginPage.navigate();
+  await expect(page.getByRole('heading', { name: 'Enterprise Login' })).toBeVisible();
 
-  // Expect h1 to contain a substring.
-  expect(await page.locator('h1').innerText()).toContain('Welcome');
+  await loginPage.login('Admin');
+
+  // The application should route us to the dashboard page upon successful login
+  await expect(page).toHaveURL(/.*dashboard/);
 });

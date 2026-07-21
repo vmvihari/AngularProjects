@@ -126,7 +126,9 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 6. [Module 6: Independent Practice](docs/module-6-qa-deployment/phase-16-unit-and-integration-testing/06-independent-practice.md)
 
 #### Phase 17: E2E Testing & Code Quality
-- *(Content coming soon...)*
+1. [Playwright E2E](docs/module-6-qa-deployment/phase-17-e2e-testing/01-playwright-e2e.md)
+2. [Page Object Model (POM)](docs/module-6-qa-deployment/phase-17-e2e-testing/02-page-object-model.md)
+3. [Code Quality & Linting](docs/module-6-qa-deployment/phase-17-e2e-testing/03-code-quality-linting.md)
 
 #### Phase 18: CI/CD & Monorepo Architecture (Nx)
 - *(Content coming soon...)*
