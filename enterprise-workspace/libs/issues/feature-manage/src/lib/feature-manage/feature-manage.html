@@ -26,7 +26,7 @@
   } @else {
     <ul class="issue-list">
       @for (issue of filteredIssues(); track issue.id) {
-        <lib-ui-issue-card [issue]="issue" (resolve)="resolveIssue($event)" (view)="viewIssue(issue.id)">
+        <lib-ui-issue-card [issue]="issue" (resolve)="resolveIssue($event)" (view)="viewIssue(issue.id)" (edit)="editIssue(issue.id)">
         </lib-ui-issue-card>
       } @empty {
         <div class="empty-state">

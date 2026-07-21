@@ -1,44 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, Validators, NonNullableFormBuilder } from '@angular/forms';
-import { IssueStore } from '@enterprise-workspace/data-access';
+import { IssueStore, uniqueTitleAsyncValidator, titleCannotMatchDescriptionValidator } from '@enterprise-workspace/data-access';
 import { NgClass } from '@angular/common'; // We will use this for CSS later
 import { AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { timer, map, Observable } from 'rxjs';
 
-// Our Custom Async Validator
-export const uniqueTitleAsyncValidator = (issueStore: any): AsyncValidatorFn => {
-  return (control: AbstractControl): Observable<ValidationErrors | null> => {
-    // 1. Simulate a 1-second network call
-    return timer(1000).pipe(
-      map(() => {
-        // 2. Actually check the IssueStore database to see if the title exists!
-        const issues = issueStore.issues();
-        const exists = issues.some((issue: any) => issue.title.toLowerCase() === control.value.toLowerCase());
-        
-        if (exists) {
-          return { titleTaken: true };
-        }
-        return null;
-      })
-    );
-  };
-};
 
-// Our custom Cross-Field Validator
-export const titleCannotMatchDescriptionValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  // Grab the child controls
-  const title = control.get('title')?.value;
-  const description = control.get('description')?.value;
-
-  // If they are strictly identical (and not empty), return an error!
-  if (title && description && title === description) {
-    return { titleMatchesDescription: true };
-  }
-  
-  // Return null if validation passes
-  return null;
-};
 
 @Component({
   selector: 'lib-feature-issue-create',
