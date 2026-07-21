@@ -82,7 +82,9 @@ The purpose of this curriculum is to leverage your senior .NET background to rap
 
 ### Module 4: Real-Time & Advanced UI
 #### Phase 10: Real-Time Communication (SignalR)
-- *(Content coming soon...)*
+1. [The SignalR Client](docs/module-4-real-time-ui/phase-10-real-time-communication/01-signalr-client.md)
+2. [Connection Management](docs/module-4-real-time-ui/phase-10-real-time-communication/02-connection-management.md)
+3. [Syncing State](docs/module-4-real-time-ui/phase-10-real-time-communication/03-sync-state.md)
 
 #### Phase 11: Advanced UI & Custom Directives
 1. [Custom Attribute Directives](docs/module-4-real-time-ui/phase-11-advanced-ui/01-attribute-directives.md)

@@ -2,7 +2,7 @@ import { computed, inject, effect } from '@angular/core';
 import { signalStore, withState, withComputed, withMethods, patchState, withHooks } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, delay, tap, switchMap } from 'rxjs';
-import { StorageService } from '@enterprise-workspace/data-access'
+import { SignalRService, StorageService } from '@enterprise-workspace/data-access'
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../apps/issue-tracker/src/environments/environment';
 
@@ -104,26 +104,47 @@ export const IssueStore = signalStore(
   })), // <--- FIXED: Added the second closing parenthesis here!
   withHooks({
     onInit(store) {
-      // 1. Inject the StorageService
-      const storage = inject(StorageService);
-      
-      // 2. Load the saved filter (Type assert it to match our strict types)
-      const savedFilter = storage.getItem('issue-tracker-filter') as 'All' | 'Open' | 'Closed';
-      
-      // 3. If a saved filter exists, patch the state!
-      if (savedFilter) {
-        patchState(store, { filter: savedFilter });
-      }
-      
-      // 4. STEP 2 OF ASSIGNMENT: Synchronize state changes back to storage
-      // effect() automatically tracks any signals called inside of it!
-      effect(() => {
-        const currentFilter = store.filter();
-        storage.setItem('issue-tracker-filter', currentFilter);
-      });
-
-      // 5. Auto-fetch the issues when the Store initializes!
+      // Fetch initial data!
       store.loadIssues();
+
+      // 1. Inject the SignalR service
+      const signalR = inject(SignalRService);
+
+      // 2. We use an effect to ensure the connection exists before subscribing!
+      effect(() => {
+        const connection = signalR.connection;
+        
+        if (connection && connection.state === 'Connected') {
+          console.log('🎧 Registering Hub Listeners...');
+
+          // Listen for updates from the server
+          connection.on('IssueUpdated', (updatedIssue: Issue) => {
+            console.log('⚡ Real-time update received:', updatedIssue);
+            
+            // Instantly patch the store!
+            patchState(store, (state) => ({
+              issues: state.issues.map(issue => 
+                issue.id === updatedIssue.id ? { ...issue, ...updatedIssue } : issue
+              )
+            }));
+          });
+
+          // Listen for new issues being created
+          connection.on('IssueCreated', (newIssue: Issue) => {
+            patchState(store, (state) => ({
+              // Add the new issue to the top of the array
+              issues: [newIssue, ...state.issues]
+            }));
+          });
+          
+          // Listen for deleted issues
+          connection.on('IssueDeleted', (deletedId: number) => {
+            patchState(store, (state) => ({
+              issues: state.issues.filter(issue => issue.id !== deletedId)
+            }));
+          });
+        }
+      });
     }
   })
 );
